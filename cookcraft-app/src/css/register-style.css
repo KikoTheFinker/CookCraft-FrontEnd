@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+
+.background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/backgroundImage.png') no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Set equal gap between all form elements */
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 60px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 1);
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 10px;
+    max-width: 100px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+}
+
+.message {
+    font-size: 15px;
+    text-align: center;
+    color: #333;
+}
+
+.signin {
+    font-size: 15px;
+    text-align: center;
+    color: rgba(51, 51, 51, 0.7);
+}
+
+.signin a {
+    color: #FFA500;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.signin a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #FFA500;
+    transition: width 0.3s ease;
+}
+
+.signin a:hover {
+    color: #ff8c00;
+}
+
+.signin a:hover::after {
+    width: 100%;
+}
+
+.form label {
+    position: relative;
+    margin-bottom: 0; /* Remove margin to ensure equal spacing */
+}
+
+.form label .input {
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%;
+    padding: 15px;
+    font-size: 14px; /* Adjusted input font size */
+    outline: 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form label .input::placeholder {
+    font-size: 0.9em;
+}
+
+.form label .input + span {
+    color: rgba(51, 51, 51, 0.5);
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1em;
+    cursor: text;
+    transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Transition all needed properties */
+}
+
+.form label .input:placeholder-shown + span {
+    top: 28px;
+    font-size: 1em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+    color: #FFA500;
+    top: 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+.password-indicator {
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: -5px; /* Adjust margin to ensure space between fields */
+    text-align: center;
+}
+
+.eye {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #FFA500;
+}
+
+.submit {
+    border: none;
+    outline: none;
+    padding: 15px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    background-color: #FFA500;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: #e69500;
+}
+
+.flex {
+    display: flex;
+    width: 100%;
+    gap: 20px; /* Ensure equal gap between firstname and lastname fields */
+}
+
+.flex label {
+    flex: 1;
+}
+
+.flex label .input {
+    font-size: 14px; /* Adjust input font size if needed */
+}
+
+.flex label .input + span {
+    top: 50%; /* Ensure proper placement */
+    transform: translateY(-50%);
+    font-size: 1em; /* Adjusted to match smaller input text size */
+}
+
+.flex label .input:focus + span,
+.flex label .input:valid + span {
+    font-weight: 600;
+    top: 10px;
+    font-size: 0.8em;
+    color: #FFA500;
+}
