@@ -167,3 +167,63 @@ body {
     cursor: pointer;
     margin-top: 10px;
 }
+
+.recipe-card {
+    /*background: rgba(255, 165, 0, 0.1%);*/
+    display: block;
+    height: 130px;
+    margin-top: 30px;
+    border-radius: 10px;
+    border: 2px solid #e0a500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-img-container {
+    /*background: skyblue;*/
+    display: inline-block;
+    height: 127px;
+    width: 150px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding-right: 150px;
+    border-right: 2px solid #e0a500; /* Slightly darker shade of #FFA500 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds depth with shadow */
+}
+
+.recipe-img {
+    width: inherit;
+    height: inherit;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    object-fit: cover;
+}
+
+.recipe-description {
+    display: inline-block;
+    width: 60%;
+    height: 130px;
+    vertical-align: top;
+    overflow-y: hidden;
+    padding: 15px
+}
+
+.recipe-description p {
+    margin: 0;
+    font-size: small;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    max-height: 105px;
+    overflow-y: hidden;
+}
+
+.recipe-favorite-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    height: 130px;
+    vertical-align: top;
+}
+
+.recipe-favorite-button span {
+    cursor: pointer;
+}
