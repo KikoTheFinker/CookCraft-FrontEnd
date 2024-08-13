@@ -3,6 +3,8 @@ import { useState } from "react";
 import Sidebar from './Sidebar';
 import ProfileSection from './ProfileSection';
 import FavoriteRecipesSection from "./FavoriteRecipesSection";
+import MyReviewsSection from "./MyReviewsSection";
+import OrderHistorySection from "./OrderHistorySection";
 
 const ProfileView = ({ heading }) => {
     const sidebarItems = ["Profile", "Favorite Recipes", "My Reviews", "Order History"];
@@ -24,8 +26,8 @@ const ProfileView = ({ heading }) => {
                 <div className="main-content">
                     {selectedSideBar === 0 && <ProfileSection />}
                     {selectedSideBar === 1 && <FavoriteRecipesSection />}
-                    {/*{selectedSideBar === 2 && <MyReviewsSection />}*/}
-                    {/*{selectedSideBar === 3 && <OrderHistorySection />}*/}
+                    {selectedSideBar === 2 && <MyReviewsSection />}
+                    {selectedSideBar === 3 && <OrderHistorySection />}
                 </div>
             </div>
         </div>
