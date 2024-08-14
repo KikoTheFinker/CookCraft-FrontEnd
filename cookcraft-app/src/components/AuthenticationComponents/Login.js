@@ -3,77 +3,74 @@ import styles from '../../css/AuthenticationCss/login-style.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import logo from '../../images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const emailField = document.querySelector(`.${styles.emailInput}`);
     const emailLabel = emailField.nextElementSibling;
     const passwordFields = document.querySelectorAll(`.${styles.passwordInput}`);
     const passwordLabels = document.querySelectorAll(`.${styles.passwordInput} + span`);
-
-    emailField.addEventListener("input", function () {
+  
+    const handleEmailValidation = () => {
       const emailValue = emailField.value;
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  
       if (!emailRegex.test(emailValue)) {
-        emailLabel.style.color = "red";
+        emailLabel.style.color = 'red';
       } else {
-        emailField.style.borderColor = "#ccc";
-        emailLabel.style.color = "#FFA500";
+        emailField.style.borderColor = '#ccc';
+        emailLabel.style.color = '#FFA500';
       }
-    });
-
-    emailField.addEventListener("focus", function () {
-      emailLabel.style.top = "3px";
-      emailLabel.style.fontSize = "0.85em";
-      emailLabel.style.fontWeight = "600";
-      emailLabel.style.transform = "translateY(0)";
-      emailLabel.style.color = "#FFA500";
-    });
-
-    emailField.addEventListener("blur", function () {
-      if (!emailField.value) {
-        emailLabel.style.top = "50%";
-        emailLabel.style.fontSize = "1.1em";
-        emailLabel.style.fontWeight = "normal";
-        emailLabel.style.transform = "translateY(-50%)";
-        emailLabel.style.color = "rgba(51, 51, 51, 0.5)";
+    };
+  
+    const handleFocus = (label) => {
+      label.style.top = '3px';
+      label.style.fontSize = '0.85em';
+      label.style.fontWeight = '600';
+      label.style.transform = 'translateY(0)';
+      label.style.color = '#FFA500';
+    };
+  
+    const handleBlur = (field, label) => {
+      if (!field.value) {
+        label.style.top = '50%';
+        label.style.fontSize = '1.1em';
+        label.style.fontWeight = 'normal';
+        label.style.transform = 'translateY(-50%)';
+        label.style.color = 'rgba(51, 51, 51, 0.5)';
       }
-    });
-
+    };
+  
+    emailField.addEventListener('input', handleEmailValidation);
+    emailField.addEventListener('focus', () => handleFocus(emailLabel));
+    emailField.addEventListener('blur', () => handleBlur(emailField, emailLabel));
+  
     passwordFields.forEach((field, index) => {
       const passwordLabel = passwordLabels[index];
-      field.addEventListener("focus", function () {
-        passwordLabel.style.top = "3px";
-        passwordLabel.style.fontSize = "0.85em";
-        passwordLabel.style.fontWeight = "600";
-        passwordLabel.style.transform = "translateY(0)";
-        passwordLabel.style.color = "#FFA500";
-      });
-
-      field.addEventListener("blur", function () {
-        if (!field.value) {
-          passwordLabel.style.top = "50%";
-          passwordLabel.style.fontSize = "1.1em";
-          passwordLabel.style.fontWeight = "normal";
-          passwordLabel.style.transform = "translateY(-50%)";
-          passwordLabel.style.color = "rgba(51, 51, 51, 0.5)";
-        }
-      });
+      field.addEventListener('focus', () => handleFocus(passwordLabel));
+      field.addEventListener('blur', () => handleBlur(field, passwordLabel));
     });
-
+  
+    // Cleanup event listeners on unmount
     return () => {
-      emailField.removeEventListener("input", () => {});
-      emailField.removeEventListener("focus", () => {});
-      emailField.removeEventListener("blur", () => {});
-      passwordFields.forEach((field) => {
-        field.removeEventListener("focus", () => {});
-        field.removeEventListener("blur", () => {});
+      emailField.removeEventListener('input', handleEmailValidation);
+      emailField.removeEventListener('focus', () => handleFocus(emailLabel));
+      emailField.removeEventListener('blur', () => handleBlur(emailField, emailLabel));
+  
+      passwordFields.forEach((field, index) => {
+        const passwordLabel = passwordLabels[index];
+        field.removeEventListener('focus', () => handleFocus(passwordLabel));
+        field.removeEventListener('blur', () => handleBlur(field, passwordLabel));
       });
     };
   }, [styles]);
@@ -90,13 +87,48 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('http://localhost:8080/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin' : '*'
+        },
+      body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const token = await response.text(); // JWT is returned as a string
+        localStorage.setItem('token', token); // Store the JWT in localStorage
+        console.log('Login successful:', token);
+        navigate('/'); // Redirect to the homepage or another protected route
+       
+      } else {
+        const errorText = await response.text();
+        console.error('Login failed:', errorText);
+        setErrorMessage('Invalid email or password. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setErrorMessage('An error occurred during login. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={styles.loginContainer}>
       <div className={styles.backgroundContainer}></div>
       <div className={styles.overlay}>
-        <form className={styles.form} action="#" method="POST" id="login-form">
+        <form className={styles.form} onSubmit={handleLogin} id="login-form">
           <img src={logo} alt="Logo" className={styles.logo} />
           <p className={styles.title}>Log in to see more</p>
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
           <label>
             <input
               className={`${styles.input} ${styles.emailInput}`}
@@ -120,8 +152,12 @@ const Login = () => {
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} id="show-password" />
             </span>
           </label>
-          <button className={styles.submit}>Log in</button>
-          <p className={styles.signin}>Don't have an account? <Link to="/Register">Sign up here</Link></p>
+          <button type="submit" className={styles.submit} disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Log in'}
+          </button>
+          <p className={styles.signin}>
+            Don't have an account? <Link to="/Register">Sign up here</Link>
+          </p>
         </form>
       </div>
     </div>
