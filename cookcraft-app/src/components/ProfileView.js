@@ -1,4 +1,4 @@
-import '../css/profile-view-style.css';
+//import '../css/profile-view-style.css';
 import { useState } from "react";
 import Sidebar from './Sidebar';
 import ProfileSection from './ProfileSection';

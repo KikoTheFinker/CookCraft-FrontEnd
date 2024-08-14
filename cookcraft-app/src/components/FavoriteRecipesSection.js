@@ -1,8 +1,8 @@
 import RecipeCard from "./RecipeCard";
 
-import image1 from "../images/gokiTestImages/dish1.jpg"
-import image2 from "../images/gokiTestImages/dish2.jpg"
-import image3 from "../images/gokiTestImages/dish3.jpg"
+import image1 from "../images/Dinner.jpg"
+import image2 from "../images/Dinner.jpg"
+import image3 from "../images/Dinner.jpg"
 
 const FavoriteRecipesSection = () => {
     return <div className="profile-section">

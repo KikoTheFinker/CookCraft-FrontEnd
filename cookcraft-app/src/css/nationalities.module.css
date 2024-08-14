@@ -1,0 +1,86 @@
+.nationalities {
+  padding: 30px 0;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.sectionTitle {
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.nationalitiesList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.nationality {
+  width: calc(25% - 20px);
+  text-align: center;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+
+.nationality img {
+  width: 100%;
+  border-radius: 12px;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.nationality img:hover {
+  transform: scale(1.05);
+}
+
+.nationality p {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .nationalities {
+      padding: 20px 0;
+  }
+
+  .sectionTitle {
+      font-size: 24px;
+      margin-bottom: 15px;
+  }
+
+  .nationalitiesList {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .nationality img {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.nationality {
+    flex: 1;
+    min-width: 220px; 
+    max-width: calc(25% - 20px);
+    text-align: center;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+  .nationality p {
+      font-size: 16px;
+  }
+}
+

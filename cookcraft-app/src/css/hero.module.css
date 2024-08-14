@@ -1,0 +1,354 @@
+.hero {
+    box-sizing: border-box;
+    background: linear-gradient(to right, #ffffff, #f5f5f5);
+    padding: 40px 0;
+    text-align: center;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.heroTitle {
+    font-size: 50px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #000;
+}
+
+.heroSubtitle {
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: -5px;
+    opacity: 0.8;
+    color: #555;
+}
+
+.searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    transition: width 0.3s ease;
+    flex-wrap: wrap;
+}
+
+.searchInput {
+    padding: 15px;
+    width: 300px;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    outline: none;
+    font-size: 18px;
+    color: #333;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.searchButton {
+    background-color: #FFA500;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #e59400;
+    cursor: pointer;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.filterContainer {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+    margin: 20px auto;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filterGroup.hasOpened {
+    margin-top: 10px; 
+}
+
+.filterGroup label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+    text-align: left;
+    width: 100%;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.dropdownButton {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: left;
+    transition: background-color 0.3s ease;
+
+    line-height: 1.6; 
+}
+
+.dropdownContent {
+    display: none; 
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.dropdown:hover .dropdownContent,
+.dropdownContent:hover {
+    display: block; 
+}
+
+.dropdownItem {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
+}
+
+.dropdownItem:hover {
+    background-color: #FFA500;
+    color: white;
+}
+
+.ingredientSelection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.searchInputContainer {
+    position: relative;
+    width: 100%;
+}
+
+.searchIngredientsInput {
+    width: 100%;
+    padding: 10px 35px 10px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.searchIcon {
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    transform: translateY(-50%);
+    color: #FFA500;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.ingredientList {
+    display: flex;
+    flex-wrap: nowrap; 
+    justify-content: flex-start; 
+    gap: 10px; 
+    max-width: 100%;
+    overflow-x: auto; 
+    overflow-y: hidden; 
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
+.ingredientItem {
+    background-color: white;
+    border: 1px solid black;
+    color: #FFA500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    user-select: none;
+    transition: transform 0.3s ease;
+    box-sizing: border-box; 
+    flex: 0 0 auto;
+    text-align: center; 
+}
+
+.ingredientItem:hover {
+    background-color: #e59400;
+    color: white;
+}
+
+.ingredientItem:active {
+    transform: scale(0.95);
+}
+
+.ingredientDropzone {
+    flex: 1;
+    min-height: 50px;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #f9f9f9;
+    flex-wrap: wrap;
+    padding: 10px;
+    padding-left: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.ingredientDropzoneActive {
+    background-color: #ffe5b4;
+}
+
+.tag {
+    border: 1px solid black;
+    background-color: #FFA500;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    animation: fadeIn 0.3s;
+}
+
+.dropzonePlaceholder {
+    color: #999;
+}
+
+.tag:hover {
+    background-color: #e59400;
+}
+
+.tag:active {
+    transform: scale(0.95);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 20px 0;
+    }
+
+    .heroTitle {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    .heroSubtitle {
+        font-size: 16px;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+
+    .searchContainer {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .searchInput {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .searchButton {
+        width: 100%;
+        font-size: 20px;
+    }
+
+    .filterContainer {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .filterGroup {
+        width: 100%;
+    }
+
+    .dropdownButton {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .ingredientSelection {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .ingredientList {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .ingredientItem {
+        width: auto;
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    .ingredientDropzone {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px;
+        min-height: 60px;
+        overflow-x: auto;
+    }
+
+    .dropzonePlaceholder {
+        text-align: center;
+        font-size: 14px;
+    }
+}
+
