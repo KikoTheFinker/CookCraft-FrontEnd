@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-//import '../css/login-style.css';
+import styles from '../../css/AuthenticationCss/login-style.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import logo from '../images/logo.png';
+import logo from '../../images/logo.png';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -11,10 +11,10 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const emailField = document.querySelector(".email-input");
+    const emailField = document.querySelector(`.${styles.emailInput}`);
     const emailLabel = emailField.nextElementSibling;
-    const passwordFields = document.querySelectorAll(".password-input");
-    const passwordLabels = document.querySelectorAll(".password-input + span");
+    const passwordFields = document.querySelectorAll(`.${styles.passwordInput}`);
+    const passwordLabels = document.querySelectorAll(`.${styles.passwordInput} + span`);
 
     emailField.addEventListener("input", function () {
       const emailValue = emailField.value;
@@ -76,7 +76,7 @@ const Login = () => {
         field.removeEventListener("blur", () => {});
       });
     };
-  }, []);
+  }, [styles]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -91,15 +91,15 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <div className="background-container"></div>
-      <div className="overlay">
-        <form className="form" action="#" method="POST" id="login-form">
-          <img src={logo} alt="Logo" className="logo" />
-          <p className="title">Log in to see more</p>
+    <div className={styles.loginContainer}>
+      <div className={styles.backgroundContainer}></div>
+      <div className={styles.overlay}>
+        <form className={styles.form} action="#" method="POST" id="login-form">
+          <img src={logo} alt="Logo" className={styles.logo} />
+          <p className={styles.title}>Log in to see more</p>
           <label>
             <input
-              className="input email-input"
+              className={`${styles.input} ${styles.emailInput}`}
               type="email"
               value={email}
               onChange={handleEmailChange}
@@ -109,19 +109,19 @@ const Login = () => {
           </label>
           <label>
             <input
-              className="input password-input"
+              className={`${styles.input} ${styles.passwordInput}`}
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={handlePasswordChange}
               required
             />
             <span>Password</span>
-            <span className="eye" onClick={togglePasswordVisibility}>
+            <span className={styles.eye} onClick={togglePasswordVisibility}>
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} id="show-password" />
             </span>
           </label>
-          <button className="submit">Log in</button>
-          <p className="signin">Don't have an account? <Link to="/Register">Sign up here</Link></p>
+          <button className={styles.submit}>Log in</button>
+          <p className={styles.signin}>Don't have an account? <Link to="/Register">Sign up here</Link></p>
         </form>
       </div>
     </div>

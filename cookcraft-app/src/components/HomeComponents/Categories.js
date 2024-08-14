@@ -3,7 +3,7 @@ import Breakfast from "../../images/Breakfast.jpg";
 import Lunch from "../../images/Lunch.jpg";
 import Dinner from "../../images/Dinner.jpg";
 import Dessert from "../../images/Dessert.jpg";
-import styles from "../../css/categories.module.css"; 
+import styles from "../../css/HomeCss/categories.module.css"; 
 
 function Categories() {
   return (

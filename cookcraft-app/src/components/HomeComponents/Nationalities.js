@@ -3,7 +3,7 @@ import Italian from "../../images/Italian.jpg";
 import Japanese from "../../images/Japanese.jpg";
 import Mexican from "../../images/Mexican.jpg";
 import Indian from "../../images/Indian.jpg";
-import styles from "../../css/nationalities.module.css";
+import styles from "../../css/HomeCss/nationalities.module.css";
 
 function Nationalities() {
   return (

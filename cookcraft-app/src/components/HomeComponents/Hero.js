@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import styles from "../../css/hero.module.css";
+import styles from "../../css/HomeCss/hero.module.css";
 
 function Hero() {
   const categories = ["Breakfast", "Lunch", "Dinner", "Desserts"];

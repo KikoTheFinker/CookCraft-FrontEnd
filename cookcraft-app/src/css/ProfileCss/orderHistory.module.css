@@ -1,0 +1,37 @@
+/* orderHistory.module.css */
+.orderCard {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    border-radius: 10px;
+    border: 2px solid #e0a500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    height: auto;
+}
+
+.orderDescription {
+    flex-grow: 1;
+    overflow-y: hidden;
+    font-size: 12px;
+    margin-left: 12px;
+}
+
+.orderDescription strong {
+    margin-right: 2px;
+    margin-left: 3px;
+}
+
+.orderReviewButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.orderBtn {
+    cursor: pointer;
+    margin-right: 10px;
+}

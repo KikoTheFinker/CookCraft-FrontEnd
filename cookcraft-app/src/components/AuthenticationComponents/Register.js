@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-//import '../css/register-style.css';
-import logo from '../images/logo.png';
+import loginStyles from '../../css/AuthenticationCss/login-style.module.css'; // Base styles
+import registerStyles from '../../css/AuthenticationCss/register-style.module.css'; // Additional styles
+import logo from '../../images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
@@ -40,7 +41,7 @@ const Register = () => {
     let strengthMessage = '';
     let strengthColor = '';
     let isStrongPassword = false;
-
+  
     if (password.length < 6) {
       strengthMessage = 'Password must be at least 6 characters';
       strengthColor = 'red';
@@ -49,7 +50,7 @@ const Register = () => {
       const hasLowerCase = /[a-z]/.test(password);
       const hasNumbers = /\d/.test(password);
       const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
+  
       if (hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChars) {
         isStrongPassword = true;
       } else {
@@ -57,10 +58,10 @@ const Register = () => {
         strengthColor = 'orange';
       }
     }
-
+  
     setPasswordStrength(strengthMessage);
     setPasswordIndicatorColor(strengthColor);
-
+  
     return isStrongPassword;
   };
 
@@ -82,9 +83,9 @@ const Register = () => {
   };
 
   useEffect(() => {
-    const emailField = document.querySelector(".email-input");
+    const emailField = document.querySelector(`.${loginStyles.input}[type="email"]`); // Select the email input specifically
     const emailLabel = emailField.nextElementSibling;
-
+  
     const handleFocus = () => {
       emailLabel.style.top = "3px";
       emailLabel.style.fontSize = "0.9em";
@@ -92,7 +93,7 @@ const Register = () => {
       emailLabel.style.transform = "translateY(0)";
       emailLabel.style.color = emailIsValid ? "#FFA500" : "red";
     };
-
+  
     const handleBlur = () => {
       if (!emailField.value) {
         emailLabel.style.top = "50%";
@@ -104,51 +105,52 @@ const Register = () => {
         emailLabel.style.color = emailIsValid ? "#FFA500" : "red";
       }
     };
-
+  
     emailField.addEventListener("focus", handleFocus);
     emailField.addEventListener("blur", handleBlur);
-
+  
     return () => {
       emailField.removeEventListener("focus", handleFocus);
       emailField.removeEventListener("blur", handleBlur);
     };
-  }, [emailIsValid]);
+  }, [emailIsValid, loginStyles]);
 
   return (
     <>
       {hasBeenRegistered ? (
         <PostRegister />
       ) : (
-        <div className="register-page">
-          <div className="background-container"></div>
-          <div className="overlay">
-            <form className="form" id="register-form" onSubmit={handleSubmit}>
-              <img src={logo} alt="Logo" className="logo" />
-              <p className="title">Create an Account</p>
-              <p className="message">Signup now and get full access to our app.</p>
-              <div className="flex">
+        <div className={loginStyles.loginContainer}>
+          <div className={loginStyles.backgroundContainer}></div>
+          <div className={loginStyles.overlay}>
+            <form className={loginStyles.form} id="register-form" onSubmit={handleSubmit}>
+              <img src={logo} alt="Logo" className={loginStyles.logo} />
+              <p className={loginStyles.title}>Create an Account</p>
+              <p className={registerStyles.message}>Signup now and get full access to our app.</p>
+              <div className={registerStyles.flex}>
                 <label>
-                  <input className="input" type="text" required />
+                  <input className={loginStyles.input} type="text" required />
                   <span>Firstname</span>
                 </label>
                 <label>
-                  <input className="input" type="text" required />
+                  <input className={loginStyles.input} type="text" required />
                   <span>Lastname</span>
                 </label>
               </div>
               <label>
                 <input
-                  className={`input email-input ${emailIsValid ? '' : 'invalid'}`}
+                  className={`${loginStyles.input} ${emailIsValid ? '' : registerStyles.invalid}`}
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
                   required
                 />
                 <span>Email</span>
-              </label>
+                </label>
+
               <label>
                 <input
-                  className="input password-input"
+                  className={`${loginStyles.input} ${loginStyles.passwordInput}`}
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   value={password}
@@ -156,13 +158,13 @@ const Register = () => {
                   required
                 />
                 <span>Password</span>
-                <span className="eye" onClick={togglePasswordVisibility}>
+                <span className={loginStyles.eye} onClick={togglePasswordVisibility}>
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} id="show-password" />
                 </span>
               </label>
               <label>
                 <input
-                  className="input password-input"
+                  className={`${loginStyles.input} ${loginStyles.passwordInput}`}
                   type={showPassword ? 'text' : 'password'}
                   id="confirm-password"
                   value={confirmPassword}
@@ -171,13 +173,13 @@ const Register = () => {
                 />
                 <span>Confirm password</span>
               </label>
-              <div id="password-indicator" className="password-indicator" style={{ color: passwordIndicatorColor }}>
+              <div id="password-indicator" className={registerStyles.passwordIndicator} style={{ color: passwordIndicatorColor }}>
                 {passwordStrength}
               </div>
-              <button className="submit" type="submit">
+              <button className={loginStyles.submit} type="submit">
                 Create account
               </button>
-              <p className="signin">
+              <p className={loginStyles.signin}>
                 Already have an account? <Link to="/Login">Log into existing account</Link>
               </p>
             </form>

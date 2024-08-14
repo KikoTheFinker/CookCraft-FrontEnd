@@ -1,7 +1,7 @@
 import React from "react";
 import Waffles from "../../images/Waffles.jpg";
 import Pancakes from "../../images/Pancakes.jpg";
-import styles from "../../css/featuredRecipes.module.css"; 
+import styles from "../../css/HomeCss/featuredRecipes.module.css"; 
 
 function FeaturedRecipes() {
   return (
