@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import loginStyles from '../../css/AuthenticationCss/login-style.module.css'; // Base styles
-import registerStyles from '../../css/AuthenticationCss/register-style.module.css'; // Additional styles
+import loginStyles from '../../css/AuthenticationCss/login-style.module.css';
+import registerStyles from '../../css/AuthenticationCss/register-style.module.css';
 import logo from '../../images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import PostRegister from './PostRegister';
 
 const Register = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -16,6 +18,18 @@ const Register = () => {
   const [passwordIndicatorColor, setPasswordIndicatorColor] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [hasBeenRegistered, setHasBeenRegistered] = useState(false);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const handleNameChange = (e) => {
+    setFirstName(capitalizeFirstLetter(e.target.value));
+  };
+
+  const handleSurnameChange = (e) => {
+    setLastName(capitalizeFirstLetter(e.target.value));
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -65,55 +79,52 @@ const Register = () => {
     return isStrongPassword;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const isStrongPassword = validatePassword();
-
+  
     if (password !== confirmPassword) {
       setPasswordStrength('Passwords do not match');
       setPasswordIndicatorColor('red');
-    } else if (!isStrongPassword) {
-      e.preventDefault();
-    } else if (!emailIsValid) {
-      e.preventDefault();
-    } else {
-      setHasBeenRegistered(true);
+      return;
+    } 
+  
+    if (!isStrongPassword) {
+      return;
+    }
+  
+    if (!emailIsValid) {
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name: firstName,  
+          surname: lastName,   
+        }),
+      });
+  
+      if (response.ok) {
+        setHasBeenRegistered(true);
+      } else {
+        const errorText = await response.text();
+        setPasswordStrength(errorText);
+        setPasswordIndicatorColor('red');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      setPasswordStrength('An error occurred during registration. Please try again.');
+      setPasswordIndicatorColor('red');
     }
   };
-
-  useEffect(() => {
-    const emailField = document.querySelector(`.${loginStyles.input}[type="email"]`); // Select the email input specifically
-    const emailLabel = emailField.nextElementSibling;
-  
-    const handleFocus = () => {
-      emailLabel.style.top = "3px";
-      emailLabel.style.fontSize = "0.9em";
-      emailLabel.style.fontWeight = "600";
-      emailLabel.style.transform = "translateY(0)";
-      emailLabel.style.color = emailIsValid ? "#FFA500" : "red";
-    };
-  
-    const handleBlur = () => {
-      if (!emailField.value) {
-        emailLabel.style.top = "50%";
-        emailLabel.style.fontSize = "1em";
-        emailLabel.style.fontWeight = "normal";
-        emailLabel.style.transform = "translateY(-50%)";
-        emailLabel.style.color = "rgba(51, 51, 51, 0.5)";
-      } else {
-        emailLabel.style.color = emailIsValid ? "#FFA500" : "red";
-      }
-    };
-  
-    emailField.addEventListener("focus", handleFocus);
-    emailField.addEventListener("blur", handleBlur);
-  
-    return () => {
-      emailField.removeEventListener("focus", handleFocus);
-      emailField.removeEventListener("blur", handleBlur);
-    };
-  }, [emailIsValid, loginStyles]);
 
   return (
     <>
@@ -129,14 +140,27 @@ const Register = () => {
               <p className={registerStyles.message}>Signup now and get full access to our app.</p>
               <div className={registerStyles.flex}>
                 <label>
-                  <input className={loginStyles.input} type="text" required />
+                  <input 
+                    className={loginStyles.input} 
+                    type="text" 
+                    value={firstName} 
+                    onChange={handleNameChange} 
+                    required 
+                  />
                   <span>Firstname</span>
                 </label>
                 <label>
-                  <input className={loginStyles.input} type="text" required />
+                  <input 
+                    className={loginStyles.input} 
+                    type="text" 
+                    value={lastName} 
+                    onChange={handleSurnameChange} 
+                    required 
+                  />
                   <span>Lastname</span>
                 </label>
               </div>
+
               <label>
                 <input
                   className={`${loginStyles.input} ${emailIsValid ? '' : registerStyles.invalid}`}
@@ -146,7 +170,7 @@ const Register = () => {
                   required
                 />
                 <span>Email</span>
-                </label>
+              </label>
 
               <label>
                 <input

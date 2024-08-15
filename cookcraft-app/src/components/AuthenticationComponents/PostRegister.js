@@ -29,7 +29,7 @@ const PostRegister = () => {
                     <p className={loginStyles.message} style={{ fontSize: '18px', marginBottom: '20px' }}>
                         Thank you for registering. Your account has been successfully created.
                     </p>
-                    <p className={loginStyles.message} style={{ fontSize: '16px', color: '#FFA500' }}>
+                    <p className={loginStyles.message} style={{ fontSize: '18px', color: '#FFA500', fontWeight: 'bold' }}>
                         You are being redirected to Login in {countdown}...
                     </p>
                 </div>

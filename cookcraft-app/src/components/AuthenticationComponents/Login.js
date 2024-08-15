@@ -86,31 +86,30 @@ const Login = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
-
+  
     try {
       const response = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin' : '*'
+          'Content-Type': 'application/json'
         },
-      body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }),
       });
-
+  
       if (response.ok) {
-        const token = await response.text(); // JWT is returned as a string
-        localStorage.setItem('token', token); // Store the JWT in localStorage
-        console.log('Login successful:', token);
+        const data = await response.json(); 
+        const { token, user_name, user_surname } = data;
+  
+        localStorage.setItem('token', token);
+        localStorage.setItem('userName', user_name);
+        localStorage.setItem('userSurname', user_surname);
+  
         navigate('/'); // Redirect to the homepage or another protected route
-       
       } else {
-        const errorText = await response.text();
-        console.error('Login failed:', errorText);
         setErrorMessage('Invalid email or password. Please try again.');
       }
     } catch (error) {
@@ -120,6 +119,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className={styles.loginContainer}>

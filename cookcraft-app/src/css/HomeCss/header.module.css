@@ -35,7 +35,7 @@
 .navContainer {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
 }
 
@@ -65,7 +65,109 @@
 .navLink:hover {
     color: #FFA500;
 }
-@media (max-width: 768px) {
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logoImage {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logoText {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .accentColor {
+    color: #f39c12;
+  }
+  
+  .navContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navLink {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .authButton {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .profileMenu {
+    position: relative;
+  }
+  
+  .profileButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .settingsIcon {
+    color: #FFA500;
+    position: relative;
+    top: 2px;
+    width: 25px;
+    height: 25px;
+  }
+  
+  .dropdownMenu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 250px; /* Make the dropdown wider */
+    padding: 0 0; /* Add some vertical padding */
+  }
+  
+  .greeting {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .dropdownLink {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+  }
+  .dropdownLink:nth-child(3){
+    color: red;
+  }
+  
+  .dropdownLink:hover {
+    background-color: #FFA500;
+    color: white;
+  }
+  @media (max-width: 768px) {
     .headerContainer {
         flex-direction: column;
         align-items: center;
@@ -98,5 +200,19 @@
         font-size: 16px;
         border-radius: 5px;
         text-align: center;
+    }
+
+    .dropdownMenu {
+        position: absolute;
+        top: 50px; /* Adjust as necessary */
+        left: 50%;
+        transform: translateX(-50%); /* Center the dropdown */
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        width: 250px;
+        padding: 0;
     }
 }
