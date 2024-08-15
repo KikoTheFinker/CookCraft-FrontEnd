@@ -73,7 +73,7 @@ const Login = () => {
         field.removeEventListener('blur', () => handleBlur(field, passwordLabel));
       });
     };
-  }, [styles]);
+  }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -108,7 +108,7 @@ const Login = () => {
         localStorage.setItem('userName', user_name);
         localStorage.setItem('userSurname', user_surname);
   
-        navigate('/'); // Redirect to the homepage or another protected route
+        navigate('/');
       } else {
         setErrorMessage('Invalid email or password. Please try again.');
       }

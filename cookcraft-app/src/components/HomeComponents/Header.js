@@ -34,15 +34,17 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
+        <Link to="/">
         <div className={styles.logo}>
           <img src={Logo} alt="CookCraft Logo" className={styles.logoImage} />
           <span className={styles.logoText}>
             Cook<span className={styles.accentColor}>Craft</span>
           </span>
         </div>
+        </Link>
         <nav className={styles.navContainer}>
           <Link to="/" className={styles.navLink}>Home</Link>
-          <a href="#recipes" className={styles.navLink}>Recipes</a>
+          <Link to="/Recipes" className={styles.navLink}>Recipes</Link>
           <a href="#about" className={styles.navLink}>About</a>
           <a href="#contact" className={styles.navLink}>Contact</a>
           {isLoggedIn && (
