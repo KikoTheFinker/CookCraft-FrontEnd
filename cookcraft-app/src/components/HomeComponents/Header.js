@@ -57,7 +57,10 @@ function Header() {
                   <div className={styles.greeting}>
                     Hello, <br/>{user.username} {user.usersurname}
                   </div>
-                  <Link to="/profile" className={styles.dropdownLink}>Profile</Link>
+                  <Link to="/profile" state={{selected : 0}} className={styles.dropdownLink}>Profile</Link>
+                  <Link to="/profile" state={{selected : 1}} className={styles.dropdownLink}>Favorite Recipes</Link>
+                  <Link to="/profile" state={{selected : 2}} className={styles.dropdownLink}>My Reviews</Link>
+                  <Link to="/profile" state={{selected : 3}} className={styles.dropdownLink}>Order History</Link>
                   <Link onClick={handleLogout} className={styles.dropdownLink}>Logout</Link>
                 </div>
               )}

@@ -159,7 +159,7 @@
     color: #333;
     cursor: pointer;
   }
-  .dropdownLink:nth-child(3){
+  .dropdownLink:nth-last-child(1){
     color: red;
   }
   

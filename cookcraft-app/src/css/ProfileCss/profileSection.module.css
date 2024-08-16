@@ -46,7 +46,7 @@
 }
 
 .formGroup input, .formGroup textarea {
-    width: 100%;
+    width: 97%;
     padding: 8px;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
@@ -57,19 +57,68 @@
     background-color: #f7f7f7;
 }
 
+.addressDetails {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 99%;
+}
+
+.addressNumber,
+.addressFloor{
+    display: inline-block;
+    width: 46%;
+    box-sizing: border-box;
+}
+
+.addressFloor {
+    padding-right: 6px;
+}
+
 .note {
     font-size: 12px;
     color: #888;
     margin-top: 5px;
 }
 
+/*.saveBtn {*/
+/*    background-color: #007bff;*/
+/*    border: none;*/
+/*    padding: 10px 15px;*/
+/*    color: #fff;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    margin-top: 10px;*/
+/*    align-self: flex-end; !* Aligns button to the left *!*/
+/*}*/
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80vh;
+    position: relative;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
 .saveBtn {
+    padding: 10px 20px;
     background-color: #007bff;
-    border: none;
-    padding: 10px 15px;
     color: #fff;
+    border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
-    align-self: flex-start; /* Aligns button to the left */
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
 }
+
+.saveBtn:hover {
+    background-color: #0056b3;
+}
+
