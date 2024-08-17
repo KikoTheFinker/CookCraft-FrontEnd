@@ -1,0 +1,66 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0); /* Start with 0 opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure it overlays everything */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth fade-in/out */
+}
+
+.modalOverlay.show {
+    background-color: rgba(0, 0, 0, 0.5); /* Transition to semi-transparent background */
+    opacity: 1;
+}
+
+.alertModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the modal */
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add a soft shadow */
+    max-width: 500px;
+    text-align: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth fade-in/out */
+}
+
+.alertModal.show {
+    opacity: 1;
+}
+
+.alertModal h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.alertModal p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.closeButton {
+    background-color: #e0a500;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.closeButton:hover {
+    background-color: #cc8b00;
+}

@@ -24,7 +24,7 @@
 
 .recipeCards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns in a row */
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
@@ -178,13 +178,13 @@
     .recipeCards {
         display: flex;
         flex-direction: column;
-        align-items: center; /* Center the cards horizontally */
-        grid-template-columns: none; /* Remove the grid layout */
+        align-items: center; 
+        grid-template-columns: none; 
     }
 
     .recipeCard {
-        width: 90%; /* Ensure the cards take up most of the screen */
-        margin-bottom: 20px; /* Add spacing between the cards */
+        width: 90%; 
+        margin-bottom: 20px; 
     }
 
     .pagination {

@@ -6,7 +6,6 @@
     border-radius: 10px;
     border: 2px solid #e0a500;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
     background-color: #fff;
 }
 
@@ -27,6 +26,7 @@
     border-radius: inherit;
     display: block; 
 }
+
 .description {
     flex: 1;
     padding: 0 15px;
@@ -40,4 +40,29 @@
     width: 40px;
     height: 100%;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .cardContainer {
+        flex-direction: column;
+        height: auto;
+        margin-top: 20px;
+    }
+
+    .imgContainer {
+        width: 100%; 
+        height: 150px; 
+        border-right: none;
+        border-bottom: 2px solid #e0a500; 
+    }
+
+    .description {
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .favoriteButton {
+        width: 100%;
+        height: 40px;
+    }
 }

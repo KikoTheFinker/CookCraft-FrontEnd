@@ -5,6 +5,7 @@ import ProfileView from "./components/ProfileView";
 import Home from "./components/Home"
 import './css/index.css';
 import Recipes from './components/RecipesComponents/Recipes';
+import ApplicationForm from './components/ApplicationForm';
 const App = () => {
   return (
     <Router>
@@ -14,6 +15,7 @@ const App = () => {
           <Route path='/Profile' element={<ProfileView/>}></Route>
           <Route path='/' element={<Home/>}/>
           <Route path='/Recipes' element={<Recipes/>}/>
+          <Route path='/Apply' element={<ApplicationForm/>}></Route>
       </Routes>
     </Router>
   )

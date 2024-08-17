@@ -1,6 +1,6 @@
 import styles from '../../css/ProfileCss/profileSection.module.css';
 import React from 'react';
-import profile_picture from '../../images/default-user-picture.png';
+
 
 const ProfileSection = () => (
     <div className={styles.profileSection}>
