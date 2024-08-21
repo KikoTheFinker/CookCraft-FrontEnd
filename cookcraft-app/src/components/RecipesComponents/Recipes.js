@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from '../../css/RecipesCss/recipe-style.module.css';
 import { Link } from 'react-router-dom';
 import Header from '../../components/HomeComponents/Header';
@@ -9,15 +10,28 @@ const Recipes = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  
+  const location = useLocation();
 
   useEffect(() => {
-    loadRecipes(page);
-  }, [page]);
+    const searchParams = new URLSearchParams(location.search);
+    const nationality = searchParams.get('nationality');
+    const category = searchParams.get('category')
+    loadRecipes(page, nationality, category);
+  }, [page, location]);
 
-  const loadRecipes = (page) => {
+  const loadRecipes = (page, nationality, category) => {
     setLoading(true);
+    
+    let url = `http://localhost:8080/api/recipes?page=${page}&size=9`;
+    if (nationality) {
+      url += `&nationality=${nationality}`;
+    }
+    if (category){
+      url += `&category=${category}`;
+    }
 
-    fetch(`http://localhost:8080/api/recipes?page=${page}&size=9`)
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         setRecipes(data.content);

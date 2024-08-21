@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from "../../css/HomeCss/hero.module.css";
-
+import { useNavigate } from 'react-router-dom';
 function Hero() {
-  const categories = ["Breakfast", "Lunch", "Dinner", "Desserts"];
-  const nationalities = ["Italian", "Mexican", "Japanese", "Indian"];
+  const categories = ["Breakfast", "Vegetarian", "Chicken", "Desserts", "Beef", "Side", "Seafood"];
+  const nationalities = ["Italian", "Mexican", "Japanese", "Indian", "Greek", "British", "Egyptian"];
   const ingredients = [
-    "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions", "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions", "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions", "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions", "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions"
+    "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions"
   ];
 
   const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
@@ -17,6 +17,9 @@ function Hero() {
   const [isNationalityDropdownOpen, setIsNationalityDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Select category");
   const [selectedNationality, setSelectedNationality] = useState("Select nationality");
+
+  const navigate = useNavigate();
+
 
   const handleIngredientSearch = (e) => {
     const filter = e.target.value.toLowerCase();
@@ -55,6 +58,17 @@ function Hero() {
     setIsNationalityDropdownOpen(false);
   };
 
+  const handleSearchClick = () => {
+    const searchParams = new URLSearchParams();
+    if (selectedCategory !== "Select category") {
+      searchParams.set('category', selectedCategory);
+    }
+    if (selectedNationality !== "Select nationality") {
+      searchParams.set('nationality', selectedNationality);
+    }
+    navigate(`/recipes?${searchParams.toString()}`);
+  };
+
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -62,7 +76,9 @@ function Hero() {
         <p className={styles.heroSubtitle}>Explore the best recipes from around the world.</p>
         <div className={styles.searchContainer}>
           <input type="text" placeholder="Search for recipes..." className={styles.searchInput} />
-          <button className={styles.searchButton} disabled>Search</button>
+          <button className={styles.searchButton} onClick={handleSearchClick}>
+            Search
+          </button>
         </div>
         <div className={styles.filterContainer}>
           <div

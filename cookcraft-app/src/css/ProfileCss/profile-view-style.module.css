@@ -1,8 +1,11 @@
+.parent{
+   margin-top: 15px;
+}
 .parentContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
     background-color: #f0f0f0; 
 }
 
@@ -41,6 +44,7 @@
 }
 
 .mainContent {
+    height: 85vh;
     flex: 1;
     padding: 20px;
     overflow-y: auto;
