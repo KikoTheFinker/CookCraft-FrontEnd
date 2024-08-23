@@ -1,5 +1,4 @@
 .profileSection {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -46,7 +45,7 @@
 }
 
 .formGroup input, .formGroup textarea {
-    width: 100%;
+    width: 95%;
     padding: 8px;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
@@ -62,7 +61,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    width: 98%;
 }
 
 .addressNumber,
@@ -85,7 +84,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 80vh;
+    height: 59vh;
     position: relative;
 }
 
@@ -97,17 +96,17 @@
 
 .saveBtn {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #FFA550;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 7.5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-right: 10px;
 }
 
 .saveBtn:hover {
-    background-color: #0056b3;
+    background-color: #e59400;
 }
 
 @media (max-width: 768px) {

@@ -25,13 +25,13 @@ function Categories() {
             <img src={Breakfast} alt="Breakfast" />
             <p>Breakfast</p>
           </div>
+          <div className={styles.category} onClick={() => handleCategoriesClick('Lunch')}>
+            <img src={Dinner} alt="Lunch" />
+            <p>Lunch</p>
+          </div>
           <div className={styles.category} onClick={() => handleCategoriesClick('Vegetarian')}>
             <img src={Lunch} alt="Vegetarian" />
             <p>Vegetarian</p>
-          </div>
-          <div className={styles.category} onClick={() => handleCategoriesClick('Chicken')}>
-            <img src={Dinner} alt="Chicken" />
-            <p>Chicken</p>
           </div>
           <div className={styles.category} onClick={() => handleCategoriesClick('Dessert')}>
             <img src={Dessert} alt="Desserts" />

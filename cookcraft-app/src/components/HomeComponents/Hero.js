@@ -4,8 +4,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from "../../css/HomeCss/hero.module.css";
 import { useNavigate } from 'react-router-dom';
 function Hero() {
-  const categories = ["Breakfast", "Vegetarian", "Chicken", "Dessert", "Beef", "Side", "Seafood"];
-  const nationalities = ["Italian", "Mexican", "Japanese", "Indian", "Greek", "British", "Egyptian"];
+  const categories = [ "Breakfast", "Lunch", "Dinner", "Dessert" ,"Vegetarian" ,"Pescatarian"];
+  const nationalities = ["American", "British", "French", "Indian", "Italian", "Japanese"];
   const ingredients = [
     "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions"
   ];

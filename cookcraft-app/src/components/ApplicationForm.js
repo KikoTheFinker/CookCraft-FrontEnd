@@ -9,12 +9,18 @@ function ApplicationForm() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [showModal, setShowModal] = useState(false); 
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // State to check if the user is logged in
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token); // Set isLoggedIn to true if the token exists
+        setIsLoggedIn(!!token);
+
+        const storedEmail = localStorage.getItem('email');
+        const storedPhoneNumber = localStorage.getItem('phoneNumber');
+
+        setEmail(storedEmail || '');
+        setPhoneNumber(storedPhoneNumber); 
     }, []);
 
     const handleCvChange = (e) => {
@@ -35,14 +41,16 @@ function ApplicationForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         const applicationData = {
             cv: cv ? await cvToBase64(cv) : null,
             motivational_letter: motivationalLetter,
             phone_number: phoneNumber,
             email: email,
         };
-    
+
+        console.log('Application Data:', applicationData);
+
         try {
             const token = localStorage.getItem('token');  
     
@@ -54,17 +62,17 @@ function ApplicationForm() {
                 },
                 body: JSON.stringify(applicationData), 
             });
-    
+
             if (response.ok) {
-                setShowModal(true); // Show the success modal
+                setShowModal(true); 
                 setTimeout(() => {
                     setShowModal(false);
                     setCv(null);
                     setMotivationalLetter('');
                     setPhoneNumber('');
                     setEmail('');
-                    navigate('/'); // Redirect after a delay
-                }, 3000); // Adjust the delay as needed
+                    navigate('/'); 
+                }, 2500); 
             } else {
                 alert('Failed to submit application');
             }
@@ -96,7 +104,6 @@ function ApplicationForm() {
         );
     }
     
-
     return (
         <div className={styles.formContainer}>
             <form onSubmit={handleSubmit} className={styles.applicationForm}>
@@ -107,13 +114,13 @@ function ApplicationForm() {
                     <input
                         type="tel"
                         id="phoneNumber"
-                        value={phoneNumber}
+                        value={phoneNumber || ''}
                         onChange={handlePhoneNumberChange}
                         placeholder="Enter your phone number"
-                        required
+                        readOnly={!!localStorage.getItem("phoneNumber")}
                     />
                 </div>
-
+                
                 <div className={styles.formGroup}>
                     <label htmlFor="email">Email Address:</label>
                     <input
@@ -122,6 +129,7 @@ function ApplicationForm() {
                         value={email}
                         onChange={handleEmailChange}
                         placeholder="Enter your email address"
+                        readOnly
                         required
                     />
                 </div>

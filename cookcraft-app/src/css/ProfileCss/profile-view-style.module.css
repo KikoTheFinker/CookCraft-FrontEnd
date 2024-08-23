@@ -1,5 +1,5 @@
 .parent{
-   margin-top: 15px;
+    padding: 8px;
 }
 .parentContainer {
     display: flex;
@@ -10,6 +10,7 @@
 }
 
 .settingsContainer {
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     width: 100%;

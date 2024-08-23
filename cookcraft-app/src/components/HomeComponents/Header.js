@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../../images/logo.png"; 
 import styles from "../../css/HomeCss/header.module.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,11 +9,10 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [user, setUser] = useState({ username: '', usersurname: '' });
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
+    if (!!token) {
       setIsLoggedIn(true);
       const userName = localStorage.getItem('userName') || 'User';
       const userSurname = localStorage.getItem('userSurname') || 'Name';
@@ -22,9 +21,9 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     setIsLoggedIn(false);
-    navigate('/login');
+    
   };
 
   const toggleDropdown = () => {
