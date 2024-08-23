@@ -11,6 +11,8 @@
     flex-grow: 1;
     padding-inline-start: 0;
     margin-top: 0;
+    width: 95%;
+    padding-right: 0;
 }
 
 .sidebar ul li {
@@ -19,6 +21,7 @@
     cursor: pointer;
     position: relative;
     border-radius: 4px;
+
 }
 
 .sidebar ul li.active,
@@ -26,7 +29,9 @@
     color: #000;
     background-color: #e7f3ff;
     font-weight: bold;
-    transition-duration: 550ms;
+    transition-duration: 100ms;
+    width: 100%;
+    padding-right: 0;
 }
 
 .sidebar ul li.active::after {
