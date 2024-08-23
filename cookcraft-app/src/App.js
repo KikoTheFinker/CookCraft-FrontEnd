@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import './css/index.css';
 import Recipes from './components/RecipesComponents/Recipes';
 import ApplicationForm from './components/ApplicationForm';
+import RecipeCard from "./components/RecipesComponents/RecipeCard";
 const App = () => {
   return (
     <Router>
@@ -16,6 +17,7 @@ const App = () => {
           <Route path='/' element={<Home/>}/>
           <Route path='/Recipes' element={<Recipes/>}/>
           <Route path='/Apply' element={<ApplicationForm/>}></Route>
+          <Route path="/Recipes/:id" element={<RecipeCard/>}></Route>
       </Routes>
     </Router>
   )
