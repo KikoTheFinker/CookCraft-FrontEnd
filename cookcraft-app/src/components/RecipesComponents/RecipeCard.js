@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const RecipeCard = () => {
     const { id } = useParams();
-    const [recipe, setRecipe] = useState(null);
+    const [recipeAndProducts, setRecipeAndProducts] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -13,7 +13,7 @@ const RecipeCard = () => {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                setRecipe(data);
+                setRecipeAndProducts(data);
                 setLoading(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
             })
@@ -27,7 +27,7 @@ const RecipeCard = () => {
         return <div>Loading...</div>;
     }
 
-    if (!recipe) {
+    if (!recipeAndProducts) {
         return <div>No recipe found.</div>;
     }
 
@@ -35,32 +35,28 @@ const RecipeCard = () => {
         <div className={styles.recipeCard}>
             <div className={styles.recipeDetails}>
                 <img
-                    src={recipe.strMealThumb}
-                    alt={recipe.strMeal}
+                    src={recipeAndProducts.recipe.strMealThumb}
+                    alt={recipeAndProducts.recipe.strMeal}
                     className={styles.recipeImage}
                 />
                 <div>
-                    <h2>{recipe.strMeal}</h2>
-                    <p className={styles.description}>{recipe.strInstructions}</p>
+                    <h2>{recipeAndProducts.recipe.strMeal}</h2>
+                    <p className={styles.description}>{recipeAndProducts.recipe.strInstructions}</p>
                 </div>
             </div>
             <div className={styles.ingredients}>
                 <div>
                     <h3>Ingredients:</h3>
                     <ul>
-                        <li>Chicken - 500g</li>
-                        <li>Yogurt - 1 cup</li>
-                        <li>Onion - 2 medium, finely chopped</li>
-                        <li>Ginger Garlic Paste - 1 tbsp</li>
-                        <li>Spices (turmeric, red chili powder, garam masala, etc.)</li>
-                        <li>Oil - 2 tbsp</li>
-                        <li>Salt to taste</li>
+                        {recipeAndProducts.productsInRecipes.map(product => (
+                            <li key={product.id}>{product.name} - {product.measurement}</li>
+                        ))}
                     </ul>
                 </div>
                 <div className={styles.video}>
                     <h3>Watch the Recipe:</h3>
                     <iframe
-                        src={recipe.strYoutube.replace("watch?v=", "embed/")}
+                        src={recipeAndProducts.recipe.strYoutube.replace("watch?v=", "embed/")}
                         title="YouTube video player"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
