@@ -7,6 +7,7 @@ import './css/index.css';
 import Recipes from './components/RecipesComponents/Recipes';
 import ApplicationForm from './components/ApplicationForm';
 import RecipeCard from "./components/RecipesComponents/RecipeCard";
+import About from "./components/About";
 const App = () => {
   return (
     <Router>
@@ -18,6 +19,7 @@ const App = () => {
           <Route path='/Recipes' element={<Recipes/>}/>
           <Route path='/Apply' element={<ApplicationForm/>}></Route>
           <Route path="/Recipes/:id" element={<RecipeCard/>}></Route>
+          <Route path={"/About"} element={<About/>}></Route>
       </Routes>
     </Router>
   )

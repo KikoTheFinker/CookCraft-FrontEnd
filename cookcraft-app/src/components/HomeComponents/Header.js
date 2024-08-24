@@ -44,7 +44,7 @@ function Header() {
         <nav className={styles.navContainer}>
           <Link to="/" className={styles.navLink}>Home</Link>
           <Link to="/Recipes" className={styles.navLink}>Recipes</Link>
-          <a href="#about" className={styles.navLink}>About</a>
+          <a href="/About" className={styles.navLink}>About</a>
           <Link to="/apply" className={styles.navLink}>Apply for Delivery</Link>
           {isLoggedIn && (
             <div className={styles.profileMenu}>

@@ -1,0 +1,96 @@
+/* General styling for the About section */
+.aboutSection {
+    background-color: #f8f8f8;
+    padding: 60px 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.introText {
+    text-align: center;
+    color: #555;
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.aboutDetails {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.aboutItem {
+    max-width: 350px;
+    margin: 20px;
+    text-align: center;
+}
+
+.aboutItem img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+h3 {
+    color: #333;
+    margin-top: 20px;
+}
+
+.aboutItem p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.teamSection {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.teamSection h2 {
+    color: #333;
+}
+
+.teamIntro {
+    color: #555;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.teamMembers {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.teamMember {
+    max-width: 250px;
+    margin: 20px;
+    text-align: center;
+}
+
+.teamMember img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+h4 {
+    color: #333;
+    margin-top: 10px;
+}
+
+.teamMember p {
+    color: #777;
+}
