@@ -1,7 +1,7 @@
 import styles from "../../css/AboutPageCss/about-body-style.module.css"
-import mission_image from "../../images/familyCookingTogether.jpg"
-import vision_image from "../../images/womanSmiling.jpg"
-import value_image from "../../images/familyMeal.jpg"
+import mission_image from "../../images/AboutPhoto1.jpg"
+import vision_image from "../../images/AboutPhoto2.jpg"
+import value_image from "../../images/AboutPhoto3.jpg"
 const AboutBody = () => {
 
     return <div className={styles.aboutSection}>
@@ -15,7 +15,7 @@ const AboutBody = () => {
 
             <div className={styles.aboutDetails}>
                 <div className={styles.aboutItem}>
-                    <img src={mission_image} alt="Our Mission"/>
+                    <img src={mission_image}  alt="Our Mission"/>
                     <h3>Our Mission</h3>
                     <p>
                         To make cooking accessible to everyone by providing easy-to-follow recipes, detailed guides, and

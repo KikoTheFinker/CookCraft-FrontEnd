@@ -1,28 +1,46 @@
 import React from "react";
-import Waffles from "../../images/Waffles.jpg";
-import Pancakes from "../../images/Pancakes.jpg";
 import styles from "../../css/HomeCss/featuredRecipes.module.css"; 
+import { useNavigate } from "react-router-dom";
 
 function FeaturedRecipes() {
+  const navigate = useNavigate();
+
+  const handleRedirect = (event) => {
+    const url = event.currentTarget.querySelector('img').getAttribute("alt");
+    if (url) {
+      navigate(url, {
+        state: {
+          fromHomepage: true
+        },
+      });
+    }
+  };
+
   return (
     <section className={styles.featuredRecipes}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Featured Recipes</h2>
         <div className={styles.recipeCards}>
-          <div className={styles.recipeCard}>
-            <img src={Waffles} alt="Golden Crisp Waffles" />
+          <div className={styles.recipeCard} onClick={handleRedirect}>
+            <img 
+              src="https://www.themealdb.com/images/media/meals/sywswr1511383814.jpg" 
+              alt="/recipes/83" 
+            />
             <div className={styles.recipeInfo}>
-              <h3 className={styles.recipeTitle}>Golden Crisp Waffles</h3>
+              <h3 className={styles.recipeTitle}>Banana Pancakes</h3>
               <p>A delightful breakfast option.</p>
-              <div className={styles.rating}>4.8 ★</div>
+              <div className={styles.rating}>4.5 ★</div>
             </div>
           </div>
-          <div className={styles.recipeCard}>
-            <img src={Pancakes} alt="Classic Pancakes" />
+          <div className={styles.recipeCard} onClick={handleRedirect}>
+            <img 
+              src="https://www.themealdb.com/images/media/meals/tqtywx1468317395.jpg" 
+              alt="/recipes/12" 
+            />
             <div className={styles.recipeInfo}>
-              <h3 className={styles.recipeTitle}>Classic Pancakes</h3>
-              <p>Fluffy and light pancakes.</p>
-              <div className={styles.rating}>4.5 ★</div>
+              <h3 className={styles.recipeTitle}>Chocolate Gateau</h3>
+              <p>Rich and light chocolate indulgence.</p>
+              <div className={styles.rating}>4.8 ★</div>
             </div>
           </div>
         </div>

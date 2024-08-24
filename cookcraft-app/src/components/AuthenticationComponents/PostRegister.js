@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PostRegister = () => {
     const navigate = useNavigate();
-    const [countdown, setCountdown] = useState(5);
+    const [countdown, setCountdown] = useState(4);
 
     useEffect(() => {
         if (countdown > 0) {
