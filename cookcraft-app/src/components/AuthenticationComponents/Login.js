@@ -101,13 +101,14 @@ const Login = () => {
   
       if (response.ok) {
         const data = await response.json(); 
-        const { token, user_name, user_surname, email, phone_number} = data;
+        const { token, user_name, user_surname, email, phone_number, address } = data;
   
         localStorage.setItem('token', token);
         localStorage.setItem('userName', user_name);
         localStorage.setItem('userSurname', user_surname);
         localStorage.setItem('email', email);
         phone_number === undefined ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", phone_number)
+        address === undefined ? localStorage.setItem("address", "") : localStorage.setItem("address", address);
   
         navigate('/');
       } else {
