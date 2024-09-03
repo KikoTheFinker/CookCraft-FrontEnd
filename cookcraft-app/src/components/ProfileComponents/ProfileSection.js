@@ -20,9 +20,6 @@ const ProfileSection = () => {
         const storedAddress = localStorage.getItem("address");
 
         let parts = storedAddress.split(" ");
-        console.log(storedAddress)
-        console.log(parts)
-        console.log(storedAddress)
 
         setProfileData({
             userName: storedUserName || '',
@@ -59,14 +56,12 @@ const ProfileSection = () => {
             if (response.ok) {
                 //duplicate code as Login.js
                 const data = await response.json();
-                const {token, userName, userSurname, email, phone_number = '', address = ''} = data;
+                const {token, userName, userSurname, email, phoneNumber = '', address = ''} = data;
 
-                localStorage.setItem('token', token);
-                localStorage.setItem('userName', userName);
-                localStorage.setItem('userSurname', userSurname);
-                localStorage.setItem('email', email);
-                phone_number === undefined ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", phone_number)
-                address === undefined ? localStorage.setItem("address", "") : localStorage.setItem("address", address);
+                updatedProfileData.phoneNumber === '' ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", updatedProfileData.phoneNumber)
+                updatedProfileData.address === '' ? localStorage.setItem("address", "") : localStorage.setItem("address", updatedProfileData.address);
+
+                alert("Profile updated successfully.")
             }
 
         } catch (error) {
