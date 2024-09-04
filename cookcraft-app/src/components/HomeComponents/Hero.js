@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from "../../css/HomeCss/hero.module.css";
 import { useNavigate } from 'react-router-dom';
+
 function Hero() {
-  const categories = [ "Breakfast", "Lunch", "Dinner", "Dessert" ,"Vegetarian" ,"Pescatarian"];
+  const categories = ["Breakfast", "Lunch", "Dinner", "Dessert", "Vegetarian", "Pescatarian"];
   const nationalities = ["American", "British", "French", "Indian", "Italian", "Japanese"];
-  const ingredients = [
-    "Chicken", "Beef", "Vegetarian", "Seafood", "Tomatoes", "Potatoes", "Garlic", "Onions"
-  ];
 
-  const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
+  const [ingredients, setIngredients] = useState([]);
+  const [filteredIngredients, setFilteredIngredients] = useState([]);
   const [dropzoneItems, setDropzoneItems] = useState([]);
-
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isNationalityDropdownOpen, setIsNationalityDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Select category");
@@ -20,11 +18,26 @@ function Hero() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetch('http://localhost:8080/api/products')
+      .then(response => response.json())
+      .then(data => {
+        const filteredData = data.map(product => ({
+          id: product.id,
+          product_name: product.name
+        }));
+        setIngredients(filteredData);
+        setFilteredIngredients(filteredData); 
+      })
+      .catch(error => {
+        console.error('Error fetching ingredients:', error);
+      });
+  }, []);
 
   const handleIngredientSearch = (e) => {
     const filter = e.target.value.toLowerCase();
     setFilteredIngredients(
-      ingredients.filter((ingredient) => ingredient.toLowerCase().includes(filter))
+      ingredients.filter((ingredient) => ingredient.product_name.toLowerCase().includes(filter))
     );
   };
 
@@ -32,20 +45,16 @@ function Hero() {
     if (!dropzoneItems.includes(ingredient)) {
       setDropzoneItems([...dropzoneItems, ingredient]);
     } else {
-      removeFromDropzone(ingredient); 
+      removeFromDropzone(ingredient);
     }
   };
 
   const removeFromDropzone = (ingredient) => {
-    setDropzoneItems(dropzoneItems.filter(item => item !== ingredient));
+    setDropzoneItems(dropzoneItems.filter(item => item.id !== ingredient.id));
   };
 
   const handleCategoryClick = (category) => {
-    if (selectedCategory === category) {
-      setSelectedCategory("Select category"); 
-    } else {
-      setSelectedCategory(category);
-    }
+    setSelectedCategory(selectedCategory === category ? "Select category" : category);
     setIsCategoryDropdownOpen(false);
   };
 
@@ -58,16 +67,22 @@ function Hero() {
     setIsNationalityDropdownOpen(false);
   };
 
+
   const handleSearchClick = () => {
     const searchParams = new URLSearchParams();
+
     if (selectedCategory !== "Select category") {
-      searchParams.set('category', selectedCategory);
+        searchParams.set('category', selectedCategory);
     }
     if (selectedNationality !== "Select nationality") {
-      searchParams.set('nationality', selectedNationality);
+        searchParams.set('nationality', selectedNationality);
     }
+
+    dropzoneItems.forEach(item => {
+        searchParams.append('productId', item.id);
+    });
     navigate(`/recipes?${searchParams.toString()}`);
-  };
+};
 
   return (
     <section className={styles.hero}>
@@ -152,7 +167,7 @@ function Hero() {
                     className={styles.ingredientItem}
                     onClick={() => addToDropzone(ingredient)}
                   >
-                    {ingredient}
+                    {ingredient.product_name}
                   </div>
                 ))}
               </div>
@@ -166,7 +181,7 @@ function Hero() {
                       className={styles.tag}
                       onClick={() => removeFromDropzone(ingredient)}
                     >
-                      {ingredient} ×
+                      {ingredient.product_name} ×
                     </div>
                   ))
                 )}

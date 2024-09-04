@@ -54,13 +54,10 @@ const ProfileSection = () => {
             })
 
             if (response.ok) {
-                //duplicate code as Login.js
                 const data = await response.json();
                 const {token, userName, userSurname, email, phoneNumber = '', address = ''} = data;
-
                 updatedProfileData.phoneNumber === '' ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", updatedProfileData.phoneNumber)
                 updatedProfileData.address === '' ? localStorage.setItem("address", "") : localStorage.setItem("address", updatedProfileData.address);
-
                 alert("Profile updated successfully.")
             }
 

@@ -38,9 +38,8 @@ const RecipeCard = () => {
         if (location.state?.fromHomepage) {
             navigate("/");
             window.scrollTo({ top: 550, behavior: "smooth" });
-            
         } else if (location.state) {
-            const { category, nationality, page } = location.state;
+            const { category, nationality, page, productIds } = location.state;
             const searchParams = new URLSearchParams();
             if (category) {
                 searchParams.set('category', category);
@@ -48,13 +47,19 @@ const RecipeCard = () => {
             if (nationality) {
                 searchParams.set('nationality', nationality);
             }
+            if (productIds && productIds.length > 0) {
+                productIds.forEach(id => {
+                    searchParams.append('productId', id);
+                });
+            }
             searchParams.set('page', page || 0);
-
+    
             navigate(`/recipes?${searchParams.toString()}`, { state: location.state });
         } else {
             navigate("/recipes");
         }
     };
+    
 
     return (
         <div className={styles.recipeCard}>

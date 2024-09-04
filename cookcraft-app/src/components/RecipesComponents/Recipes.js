@@ -18,43 +18,49 @@ const Recipes = () => {
     const nationality = searchParams.get('nationality');
     const category = searchParams.get('category');
     const pageParam = parseInt(searchParams.get('page'), 10);
+    const productIds = searchParams.getAll('productId').map(id => parseInt(id));
 
     if (!isNaN(pageParam)) {
       setPage(pageParam); 
     } else {
       setPage(0); 
     }
-
-    loadRecipes(pageParam || 0, nationality, category);
+  
+    loadRecipes(pageParam || 0, nationality, category, productIds);
   }, [location]);
+  const loadRecipes = (page, nationality, category, productIds) => {
+  setLoading(true);
+  
+  let url = `http://localhost:8080/api/recipes?page=${page}&size=9`;
+  if (nationality) {
+    url += `&nationality=${nationality}`;
+  }
+  if (category) {
+    url += `&category=${category}`;
+  }
+  if (productIds && productIds.length > 0) {
+    productIds.forEach(id => {
+      url += `&productId=${id}`;
+    });
+  }
 
-  const loadRecipes = (page, nationality, category) => {
-    setLoading(true);
-    
-    let url = `http://localhost:8080/api/recipes?page=${page}&size=9`;
-    if (nationality) {
-      url += `&nationality=${nationality}`;
-    }
-    if (category){
-      url += `&category=${category}`;
-    }
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      setRecipes(data.content);
+      setTotalPages(data.totalPages);
 
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        setRecipes(data.content);
-        setTotalPages(data.totalPages);
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      })
-      .catch(error => {
-        console.error('Error fetching recipes:', error);
+      setTimeout(() => {
         setLoading(false);
-      });
-  };
+      }, 300);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(error => {
+      console.error('Error fetching recipes:', error);
+      setLoading(false);
+    });
+};
 
   const handlePageChange = (newPage) => {
     if (newPage !== page && newPage >= 0 && newPage < totalPages) {
@@ -71,16 +77,20 @@ const Recipes = () => {
     const searchParams = new URLSearchParams(location.search);
     const nationality = searchParams.get('nationality');
     const category = searchParams.get('category');
-
+    const productIds = searchParams.getAll('productId');
+    const page = searchParams.get('page');
+  
     navigate(`/recipes/${id}`, {
       state: {
         category,
         nationality,
+        productIds,
         page,
+        previousSearch: location.search, 
       },
     });
   };
-
+  
   return (
     <>
       <Header />
