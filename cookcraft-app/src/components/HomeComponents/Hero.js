@@ -18,6 +18,12 @@ function Hero() {
 
   const navigate = useNavigate();
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+const handleSearchInput = (e) => {
+    setSearchTerm(e.target.value); 
+};
+
   useEffect(() => {
     fetch('http://localhost:8080/api/products')
       .then(response => response.json())
@@ -77,10 +83,14 @@ function Hero() {
     if (selectedNationality !== "Select nationality") {
         searchParams.set('nationality', selectedNationality);
     }
+    if (searchTerm) {
+        searchParams.set('searchTerm', searchTerm);
+    }
 
     dropzoneItems.forEach(item => {
         searchParams.append('productId', item.id);
     });
+
     navigate(`/recipes?${searchParams.toString()}`);
 };
 
@@ -90,7 +100,13 @@ function Hero() {
         <h1 className={styles.heroTitle}>Discover Delicious Recipes</h1>
         <p className={styles.heroSubtitle}>Explore the best recipes from around the world.</p>
         <div className={styles.searchContainer}>
-          <input type="text" placeholder="Search for recipes..." className={styles.searchInput} />
+        <input
+    type="text"
+    placeholder="Search for recipes..."
+    className={styles.searchInput}
+    value={searchTerm} 
+    onChange={handleSearchInput} 
+/>
           <button className={styles.searchButton} onClick={handleSearchClick}>
             Search
           </button>

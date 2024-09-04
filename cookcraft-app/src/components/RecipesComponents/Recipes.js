@@ -13,25 +13,36 @@ const Recipes = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const getSearchParams = (location) => {
     const searchParams = new URLSearchParams(location.search);
     const nationality = searchParams.get('nationality');
     const category = searchParams.get('category');
-    const pageParam = parseInt(searchParams.get('page'), 10);
+    const page = parseInt(searchParams.get('page'), 10);
     const productIds = searchParams.getAll('productId').map(id => parseInt(id));
-
-    if (!isNaN(pageParam)) {
-      setPage(pageParam); 
-    } else {
-      setPage(0); 
-    }
-  
-    loadRecipes(pageParam || 0, nationality, category, productIds);
+    const searchTerm = searchParams.get('searchTerm');
+    
+    return {
+      nationality,
+      category,
+      page: isNaN(page) ? 0 : page,
+      productIds,
+      searchTerm,
+    };
+  };
+  useEffect(() => {
+    const { nationality, category, page, productIds, searchTerm } = getSearchParams(location);
+    
+    setPage(page);  
+    loadRecipes(page, nationality, category, productIds, searchTerm);  
   }, [location]);
-  const loadRecipes = (page, nationality, category, productIds) => {
+
+  const loadRecipes = (page, nationality, category, productIds, searchTerm) => {
   setLoading(true);
   
   let url = `http://localhost:8080/api/recipes?page=${page}&size=9`;
+  if (searchTerm) {
+    url += `&searchTerm=${encodeURIComponent(searchTerm)}`;
+  }
   if (nationality) {
     url += `&nationality=${nationality}`;
   }
@@ -62,34 +73,31 @@ const Recipes = () => {
     });
 };
 
-  const handlePageChange = (newPage) => {
-    if (newPage !== page && newPage >= 0 && newPage < totalPages) {
-      setPage(newPage);
+const handlePageChange = (newPage) => {
+  if (newPage !== page && newPage >= 0 && newPage < totalPages) {
+    setPage(newPage);
 
-      const searchParams = new URLSearchParams(location.search);
-      searchParams.set('page', newPage);
-
-      navigate(`/recipes?${searchParams.toString()}`);
-    }
-  };
-
-  const navigateToRecipe = (id) => {
     const searchParams = new URLSearchParams(location.search);
-    const nationality = searchParams.get('nationality');
-    const category = searchParams.get('category');
-    const productIds = searchParams.getAll('productId');
-    const page = searchParams.get('page');
-  
-    navigate(`/recipes/${id}`, {
-      state: {
-        category,
-        nationality,
-        productIds,
-        page,
-        previousSearch: location.search, 
-      },
-    });
-  };
+    searchParams.set('page', newPage);
+
+    navigate(`/recipes?${searchParams.toString()}`);
+  }
+};
+
+const navigateToRecipe = (id) => {
+  const { nationality, category, productIds, page, searchTerm } = getSearchParams(location);
+
+  navigate(`/recipes/${id}`, {
+    state: {
+      category,
+      nationality,
+      productIds,
+      page,
+      searchTerm,
+      previousSearch: location.search,
+    },
+  });
+};
   
   return (
     <>
