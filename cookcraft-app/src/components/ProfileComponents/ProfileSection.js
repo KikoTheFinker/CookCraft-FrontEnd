@@ -42,8 +42,6 @@ const ProfileSection = () => {
                 address: `${profileData.address} ${profileData.addressNumber} ${profileData.addressFloor}`
             };
 
-            console.log(updatedProfileData)
-
             const response = await fetch("http://localhost:8080/api/profile/update", {
                 method: 'POST',
                 headers: {

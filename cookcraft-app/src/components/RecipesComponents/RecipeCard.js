@@ -1,7 +1,7 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import styles from "../../css/RecipesCss/recipe-card-style.module.css";
 import { useState, useEffect } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaHeart } from "react-icons/fa";
 
 const RecipeCard = () => {
     const { id } = useParams();
@@ -61,6 +61,32 @@ const RecipeCard = () => {
     };
     
 
+    const handleFavoriteClick = async () => {
+        const token = localStorage.getItem("token")
+        try {
+            const response = await fetch("http://localhost:8080/api/favorite", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userEmail: localStorage.getItem("email"),
+                    recipeId: id
+                })
+            });
+
+            if (response.ok) {
+                alert("Recipe added to favorites!");
+            } else {
+                alert("Failed to add recipe to favorites.");
+            }
+        }
+        catch (error) {
+            console.log(error)
+            alert("An error occurred while trying to add the recipe to your favorites.")
+        }
+    };
+
     return (
         <div className={styles.recipeCard}>
             <div className={styles.backArrow} onClick={handleBackClick}>
@@ -97,6 +123,7 @@ const RecipeCard = () => {
                         allowFullScreen
                     />
                 </div>
+                <button onClick={handleFavoriteClick}><FaHeart/></button>
             </div>
         </div>
     );
