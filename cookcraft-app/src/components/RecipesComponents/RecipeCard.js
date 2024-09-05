@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import styles from "../../css/RecipesCss/recipe-card-style.module.css";
-import { useState, useEffect } from "react";
 import { FaArrowLeft, FaHeart } from "react-icons/fa";
+import StarRating from "./StartRating";
+import styles from "../../css/RecipesCss/recipe-card-style.module.css";
 
 const RecipeCard = () => {
     const { id } = useParams();
@@ -9,30 +10,33 @@ const RecipeCard = () => {
     const location = useLocation();
     const [recipeAndProducts, setRecipeAndProducts] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [newReview, setNewReview] = useState('');
+    const [rating, setRating] = useState(0);
+    const [reviews, setReviews] = useState([]);
+    const [visibleReviews, setVisibleReviews] = useState(3);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        const url = `http://localhost:8080/api/recipes/${id}`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
+        const fetchRecipe = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/recipes/${id}`);
+                const data = await response.json();
+    
+                const sortedReviews = data.reviews.sort((a, b) => b.rating - a.rating);
+    
                 setRecipeAndProducts(data);
+                setReviews(sortedReviews);
                 setLoading(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error fetching recipe:', error);
                 setLoading(false);
-            });
+            }
+        };
+        fetchRecipe();
     }, [id]);
 
-    if (loading) {
-        return <div className={styles.loading}>Loading...</div>;
-    }
-
-    if (!recipeAndProducts) {
-        return <div className={styles.noRecipe}>No recipe found.</div>;
-    }
+    const showMoreReviews = () => setVisibleReviews(prev => prev + 3);
 
     const handleBackClick = () => {
         if (location.state?.fromHomepage) {
@@ -41,28 +45,41 @@ const RecipeCard = () => {
         } else if (location.state) {
             const { category, nationality, page, productIds } = location.state;
             const searchParams = new URLSearchParams();
-            if (category) {
-                searchParams.set('category', category);
-            }
-            if (nationality) {
-                searchParams.set('nationality', nationality);
-            }
+            if (category) searchParams.set('category', category);
+            if (nationality) searchParams.set('nationality', nationality);
             if (productIds && productIds.length > 0) {
-                productIds.forEach(id => {
-                    searchParams.append('productId', id);
-                });
+                productIds.forEach(id => searchParams.append('productId', id));
             }
             searchParams.set('page', page || 0);
-    
             navigate(`/recipes?${searchParams.toString()}`, { state: location.state });
         } else {
             navigate("/recipes");
         }
     };
-    
+
+
+    useEffect(() => {
+        const fetchFavoriteStatus = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/favorite/${id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+                const data = await response.json();
+                if (data.isFavorite) {
+                    setIsFavorite(true);
+                }
+            } catch (error) {
+                console.error("Error fetching favorite status:", error);
+            }
+        };
+        fetchFavoriteStatus();
+    }, [id]);
+
 
     const handleFavoriteClick = async () => {
-        const token = localStorage.getItem("token")
         try {
             const response = await fetch("http://localhost:8080/api/favorite", {
                 method: 'POST',
@@ -76,6 +93,7 @@ const RecipeCard = () => {
             });
 
             if (response.ok) {
+                setIsFavorite(true); 
                 alert("Recipe added to favorites!");
             } else {
                 alert("Failed to add recipe to favorites.");
@@ -87,11 +105,48 @@ const RecipeCard = () => {
         }
     };
 
+    const handleReviewSubmit = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("User not authenticated. Please log in first.");
+            return;
+        }
+        try {
+            const response = await fetch("http://localhost:8080/api/reviews", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ recipeId: id, review: newReview, rating }),
+            });
+            if (response.ok) {
+                const updatedReviews = await response.json();
+                setReviews(updatedReviews);
+                setNewReview("");
+                setRating(0);
+            } else {
+                const errorText = await response.text();
+                console.error("Failed to submit review: ", errorText);
+                alert(`Failed to submit review. Error: ${errorText}`);
+            }
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            alert("An error occurred while submitting the review.");
+        }
+    };
+
+    if (loading) return <div className={styles.loading}>Loading...</div>;
+    if (!recipeAndProducts) return <div className={styles.noRecipe}>No recipe found.</div>;
+
     return (
         <div className={styles.recipeCard}>
             <div className={styles.backArrow} onClick={handleBackClick}>
                 <FaArrowLeft />
             </div>
+            <button className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`} onClick={handleFavoriteClick}>
+                <FaHeart />
+            </button>
             <div className={styles.recipeDetails}>
                 <img
                     src={recipeAndProducts.recipe.strMealThumb}
@@ -123,7 +178,36 @@ const RecipeCard = () => {
                         allowFullScreen
                     />
                 </div>
-                <button onClick={handleFavoriteClick}><FaHeart/></button>
+            </div>
+
+            <div className={styles.reviewsSection}>
+                <h3>REVIEWS</h3>
+                <ul>
+                    {reviews.slice(0, visibleReviews).map(review => (
+                        <li key={review.id}>
+                            <strong>{review.userName} {review.userSurname}</strong>
+                            <span className={styles.reviewText}>{review.review}</span>
+                            <span className={styles.ratingText} data-rating={review.rating}>
+                                Rating: {review.rating}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+                {visibleReviews < reviews.length && (
+                    <button onClick={showMoreReviews} className={styles.showMoreButton}>
+                        Show More
+                    </button>
+                )}
+                <div className={styles.addReview}>
+                    <h4>Add Your Review</h4>
+                    <textarea
+                        value={newReview}
+                        onChange={(e) => setNewReview(e.target.value)}
+                        placeholder="Write your review here..."
+                    />
+                    <StarRating rating={rating} setRating={setRating} />
+                    <button onClick={handleReviewSubmit}>Submit Review</button>
+                </div>
             </div>
         </div>
     );
