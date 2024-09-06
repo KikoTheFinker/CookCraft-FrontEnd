@@ -1,17 +1,61 @@
+import React, { useEffect, useState } from 'react';
 import styles from '../../css/ProfileCss/myReviews.module.css';
 import ReviewCard from "./ReviewCard";
-import image1 from "../../images/Breakfast.jpg";
-import image2 from "../../images/Dinner.jpg";
-import image3 from "../../images/Dessert.jpg";
 
 const MyReviewsSection = () => {
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("User not authenticated. Please log in first.");
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8080/api/reviews/user', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setReviews(data);
+                } else {
+                    console.error("Failed to fetch reviews. Status:", response.status);
+                }
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        };
+
+        fetchReviews();
+    }, []);
+
     return (
         <div className={styles.profileSection}>
-            <ReviewCard imageURL={image1} isPositive={false} reviewText="Lorem ipsum dolor sit amet. Est possimus dolorem ut quia dolorem ea optio dicta nam amet corporis. Ut quia tenetur eum mollitia suscipit ut magnam soluta. Id magnam quia qui delectus alias qui fugiat voluptatem rem laborum modi id sunt dolores id voluptas nemo." />
-            <ReviewCard imageURL={image2} isPositive={true} reviewText="Lorem ipsum dolor sit amet. Est possimus dolorem ut quia dolorem ea optio dicta nam amet corporis. Ut quia tenetur eum mollitia suscipit ut magnam soluta. Id magnam quia qui delectus alias qui fugiat voluptatem rem laborum modi id sunt dolores id voluptas nemo." />
-            <ReviewCard imageURL={image3} isPositive={true} reviewText="Lorem ipsum dolor sit amet. Est possimus dolorem ut quia dolorem ea optio dicta nam amet corporis. Ut quia tenetur eum mollitia suscipit ut magnam soluta. Id magnam quia qui delectus alias qui fugiat voluptatem rem laborum modi id sunt dolores id voluptas nemo." />
+            {reviews.length > 0 ? (
+                reviews.map((review, index) => (
+                    <ReviewCard
+                        key={index}
+                        imageURL={review.mealThumb}
+                        rating={review.rating}
+                        reviewText={review.review}
+                        recipeName={review.recipeName}
+                        recipeId={review.recipeId}
+                        isUserReview={true}
+                        
+                    />
+                ))
+            ) : (
+                <p>No reviews found.</p>
+            )}
         </div>
     );
-}
+};
 
 export default MyReviewsSection;

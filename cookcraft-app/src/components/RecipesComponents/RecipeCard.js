@@ -37,9 +37,10 @@ const RecipeCard = () => {
     }, [id]);
 
     const showMoreReviews = () => setVisibleReviews(prev => prev + 3);
-
     const handleBackClick = () => {
-        if (location.state?.fromHomepage) {
+        if (location.state?.fromMyReviews) {
+            navigate('/profile', { state: { selected: 2 } });
+        } else if (location.state?.fromHomepage) {
             navigate("/");
             window.scrollTo({ top: 550, behavior: "smooth" });
         } else if (location.state) {

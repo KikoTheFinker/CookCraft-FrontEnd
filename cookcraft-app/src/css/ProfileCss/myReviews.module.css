@@ -7,39 +7,83 @@
     border: 2px solid #e0a500;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #fff;
+    transition: transform 0.3s;
 }
 
+.cardContainer:hover {
+    transform: scale(1.01);
+}
+.userReviewIndicator {
+    font-weight: bold;
+    color: lightsalmon;
+    display: block;
+    margin-bottom: 5px;
+}
+
+
 .imgContainer {
-    width: 150px; 
-    height: 100%; 
+    width: 150px;
+    height: 100%;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     overflow: hidden;
-    border-right: 2px solid #e0a500; 
-    margin-right: 0; 
+    border-right: 2px solid #e0a500;
+    margin-right: 0;
 }
 
 .img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
-    border-radius: inherit;
-    display: block; 
+    object-fit: cover;
+    display: block;
 }
 
-.description {
-    flex: 1;
-    padding: 0 15px;
-    overflow-y: hidden;
-}
-
-.favoriteButton {
-    display: inline-flex;
+.contentContainer {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 100%;
-    cursor: pointer;
+    width: 100%;
+    padding-left: 15px;
+}
+
+.textSection {
+    flex-grow: 1;
+    padding-right: 10px;
+}
+
+.recipeName {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.reviewText {
+    font-size: 1rem;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ratingSection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.starRating {
+    display: flex;
+}
+
+.star {
+    font-size: 1.5rem;
+    color: #ccc;
+    margin-right: 4px;
+    transition: color 0.3s ease;
+}
+
+.star.active {
+    color: #FFA550; 
 }
 
 @media (max-width: 768px) {
