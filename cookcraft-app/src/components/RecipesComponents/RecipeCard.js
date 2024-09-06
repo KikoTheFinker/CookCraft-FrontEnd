@@ -18,14 +18,19 @@ const RecipeCard = () => {
 
     useEffect(() => {
         const fetchRecipe = async () => {
+            const userEmail = localStorage.getItem("email");
             try {
                 const response = await fetch(`http://localhost:8080/api/recipes/${id}`);
                 const data = await response.json();
     
                 const sortedReviews = data.reviews.sort((a, b) => b.rating - a.rating);
-    
+
                 setRecipeAndProducts(data);
                 setReviews(sortedReviews);
+                const favoriteResponse = await fetch(`http://localhost:8080/api/favorite/check?userEmail=${userEmail}&recipeId=${id}`)
+                const isFavorited = await favoriteResponse.json();
+                setIsFavorite(isFavorited)
+
                 setLoading(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
             } catch (error) {
@@ -40,6 +45,8 @@ const RecipeCard = () => {
     const handleBackClick = () => {
         if (location.state?.fromMyReviews) {
             navigate('/profile', { state: { selected: 2 } });
+        } else if(location.state?.fromMyFavoriteRecipes) {
+            navigate('/profile', { state: { selected: 1 } })
         } else if (location.state?.fromHomepage) {
             navigate("/");
             window.scrollTo({ top: 550, behavior: "smooth" });
@@ -58,28 +65,6 @@ const RecipeCard = () => {
         }
     };
 
-
-    useEffect(() => {
-        const fetchFavoriteStatus = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/api/favorite/${id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem("token")}`
-                    }
-                });
-                const data = await response.json();
-                if (data.isFavorite) {
-                    setIsFavorite(true);
-                }
-            } catch (error) {
-                console.error("Error fetching favorite status:", error);
-            }
-        };
-        fetchFavoriteStatus();
-    }, [id]);
-
-
     const handleFavoriteClick = async () => {
         try {
             const response = await fetch("http://localhost:8080/api/favorite", {
@@ -94,10 +79,11 @@ const RecipeCard = () => {
             });
 
             if (response.ok) {
-                setIsFavorite(true); 
-                alert("Recipe added to favorites!");
+                setIsFavorite(!isFavorite);
+                const message = await response.text();
+                alert(message)
             } else {
-                alert("Failed to add recipe to favorites.");
+                alert("Failed to update favorite status.");
             }
         }
         catch (error) {

@@ -1,15 +1,26 @@
 import styles from '../../css/ProfileCss/myReviews.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons';
+import {useNavigate} from "react-router-dom";
 
-const RecipeCard = ({ imageURL }) => {
+const RecipeCard = ({ recipeId, name, description, category, origin, imageURL }) => {
+    const navigate = useNavigate()
+
+    const handleCardClick = () => {
+        navigate(`/recipes/${recipeId}`, {
+            state: { fromMyFavoriteRecipes: true }
+        });
+    }
+
     return (
-        <div className={styles.cardContainer}>
+        <div className={styles.cardContainer} onClick={handleCardClick}>
             <div className={styles.imgContainer}>
-                <img src={imageURL} className={styles.img} />
+                <img src={imageURL} className={styles.img} alt={name}/>
             </div>
-            <div className={styles.description}>
-                <p>Lorem ipsum dolor sit amet. Est possimus dolorem ut quia dolorem ea optio dicta nam amet corporis. Ut quia tenetur eum mollitia suscipit ut magnam soluta. Id magnam quia qui delectus alias qui fugiat voluptatem rem laborum modi id sunt dolores id voluptas nemo.</p>
+            <div className={styles.contentContainer}>
+                <div className={styles.description}>
+                    <p>{description}</p>
+                </div>
             </div>
             <div className={styles.favoriteButton}>
                 <span><FontAwesomeIcon icon={faSolidHeart} /></span>
