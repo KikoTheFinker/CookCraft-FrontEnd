@@ -1,5 +1,5 @@
 import styles from '../../css/ProfileCss/profile-view-style.module.css';
-import RecipeCard from "./RecipeCard";
+import FavoriteCard from "./FavoriteCard";
 import {useEffect, useState} from "react";
 
 const FavoriteRecipesSection = () => {
@@ -10,7 +10,6 @@ const FavoriteRecipesSection = () => {
 
         const fetchFavoriteRecipes = async () => {
             const token = localStorage.getItem("token")
-
             if (!token) {
                 alert("User not authorized.")
                 return;
@@ -28,8 +27,8 @@ const FavoriteRecipesSection = () => {
                 if(response.ok)
                 {
                     const data = await response.json()
-                    setFavoriteRecipes(data);
-                    console.log(data);
+                    const sortedData = data.sort((a, b) => b.id - a.id);
+                    setFavoriteRecipes(sortedData);
                 }
                 else
                 {
@@ -51,7 +50,7 @@ const FavoriteRecipesSection = () => {
                     (<p>No recipes found.</p>)
                     :
                     favoriteRecipes.map((recipe, index) => (
-                        <RecipeCard
+                        <FavoriteCard
                             key = {index}
                             recipeId = {recipe.id}
                             name = {recipe.strMeal}
