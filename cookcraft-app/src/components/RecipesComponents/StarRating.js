@@ -33,9 +33,10 @@ const StarRating = ({ rating, setRating, readOnly = false }) => {
             className={`${styles.star} ${
               (hoverRating || rating) >= starValue ? styles.active : ''
             }`}
-            onMouseOver={() => handleMouseOver(starValue)}
-            onMouseLeave={handleMouseLeave}
-            onClick={() => handleClick(starValue)}
+            onMouseOver={!readOnly ? () => handleMouseOver(starValue) : null}
+            onMouseLeave={!readOnly ? handleMouseLeave : null}
+            onClick={!readOnly ? () => handleClick(starValue) : null}
+            style={{ cursor: readOnly ? 'not-allowed' : 'pointer' }}
           />
         );
       })}

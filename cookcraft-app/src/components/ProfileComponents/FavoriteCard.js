@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons';
 import {useNavigate} from "react-router-dom";
 
-const RecipeCard = ({ recipeId, name, description, category, origin, imageURL }) => {
+const RecipeCard = ({ recipeId, name, category, origin, imageURL }) => {
     const navigate = useNavigate()
 
     const handleCardClick = () => {
@@ -33,7 +33,7 @@ const RecipeCard = ({ recipeId, name, description, category, origin, imageURL })
                     </div>
                 </div>
                 <div className={styles.favoriteButton}>
-                    <span><FontAwesomeIcon icon={faSolidHeart}/></span>
+                    <span><FontAwesomeIcon icon={faSolidHeart} style={{ color: 'red' }}/></span>
                 </div>
             </div>
         </div>
