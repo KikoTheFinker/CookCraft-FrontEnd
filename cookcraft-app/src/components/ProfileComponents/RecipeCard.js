@@ -15,15 +15,26 @@ const RecipeCard = ({ recipeId, name, description, category, origin, imageURL })
     return (
         <div className={styles.cardContainer} onClick={handleCardClick}>
             <div className={styles.imgContainer}>
-                <img src={imageURL} className={styles.img} alt={name}/>
+                <img
+                    src={imageURL}
+                    className={styles.img}
+                    alt={name}/>
             </div>
             <div className={styles.contentContainer}>
-                <div className={styles.description}>
-                    <p>{description}</p>
+                <div className={styles.textSection}>
+                    <h3 className={styles.recipeName}>{name}</h3>
+                    <div>
+                        <span className={styles.userFavoriteIndicator}>Origin:</span>
+                        <span className={styles.userFavoriteCuisineText}>{origin}</span>
+                    </div>
+                    <div>
+                        <span className={styles.userFavoriteIndicator}>Category:</span>
+                        <span className={styles.userFavoriteCuisineText}>{category}</span>
+                    </div>
                 </div>
-            </div>
-            <div className={styles.favoriteButton}>
-                <span><FontAwesomeIcon icon={faSolidHeart} /></span>
+                <div className={styles.favoriteButton}>
+                    <span><FontAwesomeIcon icon={faSolidHeart}/></span>
+                </div>
             </div>
         </div>
     );

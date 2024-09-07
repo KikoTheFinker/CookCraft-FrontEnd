@@ -413,13 +413,6 @@
     align-items: center;
 }
 
-.reviewsSection .ratingText::before {
-    content: '★'.repeat(5);
-    letter-spacing: 3px;
-    margin-right: 0.5em;
-    font-size: 1.2em;
-}
-
 .reviewsSection .ratingText[data-rating="1"]::before { content: '★☆☆☆☆'; }
 .reviewsSection .ratingText[data-rating="2"]::before { content: '★★☆☆☆'; }
 .reviewsSection .ratingText[data-rating="3"]::before { content: '★★★☆☆'; }
