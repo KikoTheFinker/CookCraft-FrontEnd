@@ -211,7 +211,9 @@
     flex-direction: column;
     gap: 1em;
 }
-
+.readOnly {
+    opacity: 0.5; 
+  }
 .recipeCard .addReview textarea {
     width: 100%;
     padding: 1em;
@@ -413,18 +415,67 @@
     align-items: center;
 }
 
-.reviewsSection .ratingText::before {
-    content: '★'.repeat(5);
-    letter-spacing: 3px;
-    margin-right: 0.5em;
-    font-size: 1.2em;
-}
-
 .reviewsSection .ratingText[data-rating="1"]::before { content: '★☆☆☆☆'; }
 .reviewsSection .ratingText[data-rating="2"]::before { content: '★★☆☆☆'; }
 .reviewsSection .ratingText[data-rating="3"]::before { content: '★★★☆☆'; }
 .reviewsSection .ratingText[data-rating="4"]::before { content: '★★★★☆'; }
 .reviewsSection .ratingText[data-rating="5"]::before { content: '★★★★★'; }
+
+.reviewItem {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start; 
+    padding: 1em;
+    margin-bottom: 1.2em;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid #FFA550;
+    position: relative;
+}
+
+.reviewItem .reviewContent {
+    flex-grow: 1; 
+    margin-right: 20px; 
+    word-break: break-word;
+    white-space: normal; 
+}
+
+.reviewItem .ratingText {
+    font-size: 1em;
+    color: #FFA550;
+    font-weight: bold;
+    margin: 0;
+    position: relative;
+    bottom: 0;
+    top: 10px;
+    text-align: left; 
+}
+
+.deleteButton {
+    background-color: #ff272e;
+    border: none;
+    color: white;
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute;
+    bottom: 10px;
+    right: 10px; 
+}
+
+.deleteButton:hover {
+    background-color: #FF3333;
+    transform: scale(1.02);
+}
+
+.deleteButton:active {
+    transform: scale(0.98);
+}
+
 
 @media (max-width: 768px) {
     .reviewsSection {
@@ -432,10 +483,20 @@
     }
 
     .reviewsSection li {
-        padding: 1em; 
+        padding: 1em;
     }
 
     .reviewsSection h3 {
         font-size: 1.8em;
+    }
+
+    .reviewItem .ratingText {
+        position: static;
+        margin-top: 10px;
+    }
+
+    .deleteButton {
+        position: static;
+        margin-top: 10px;
     }
 }

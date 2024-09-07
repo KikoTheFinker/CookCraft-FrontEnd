@@ -5,7 +5,6 @@ import styles from '../../css/ProfileCss/myReviews.module.css';
 
 const ReviewCard = ({ imageURL, rating, reviewText, recipeName, recipeId, isUserReview }) => {
     const navigate = useNavigate();
-
     const handleCardClick = () => {
         navigate(`/recipes/${recipeId}`, {
             state: { fromMyReviews: true } 

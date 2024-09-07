@@ -19,7 +19,7 @@ const RecipeCard = ({ recipeId, name, description, category, origin, imageURL })
             </div>
             <div className={styles.contentContainer}>
                 <div className={styles.description}>
-                    <p>{description}</p>
+                    <h1>{description}</h1>
                 </div>
             </div>
             <div className={styles.favoriteButton}>

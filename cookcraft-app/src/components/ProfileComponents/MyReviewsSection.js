@@ -24,7 +24,8 @@ const MyReviewsSection = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setReviews(data);
+                    const sortedReviews = data.sort((a, b) => b.id - a.id);
+                    setReviews(sortedReviews);
                 } else {
                     console.error("Failed to fetch reviews. Status:", response.status);
                 }
@@ -48,7 +49,6 @@ const MyReviewsSection = () => {
                         recipeName={review.recipeName}
                         recipeId={review.recipeId}
                         isUserReview={true}
-                        
                     />
                 ))
             ) : (

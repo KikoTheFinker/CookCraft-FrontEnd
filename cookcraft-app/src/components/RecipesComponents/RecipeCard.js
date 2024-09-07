@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { FaArrowLeft, FaHeart } from "react-icons/fa";
-import StarRating from "./StartRating";
+import StarRating from "./StarRating";
 import styles from "../../css/RecipesCss/recipe-card-style.module.css";
 
 const RecipeCard = () => {
@@ -11,7 +11,7 @@ const RecipeCard = () => {
     const [recipeAndProducts, setRecipeAndProducts] = useState(null);
     const [loading, setLoading] = useState(true);
     const [newReview, setNewReview] = useState('');
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(1);
     const [reviews, setReviews] = useState([]);
     const [visibleReviews, setVisibleReviews] = useState(3);
     const [isFavorite, setIsFavorite] = useState(false);
@@ -27,9 +27,9 @@ const RecipeCard = () => {
 
                 setRecipeAndProducts(data);
                 setReviews(sortedReviews);
-                const favoriteResponse = await fetch(`http://localhost:8080/api/favorite/check?userEmail=${userEmail}&recipeId=${id}`)
+                const favoriteResponse = await fetch(`http://localhost:8080/api/favorite/check?userEmail=${userEmail}&recipeId=${id}`);
                 const isFavorited = await favoriteResponse.json();
-                setIsFavorite(isFavorited)
+                setIsFavorite(isFavorited);
 
                 setLoading(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -45,8 +45,8 @@ const RecipeCard = () => {
     const handleBackClick = () => {
         if (location.state?.fromMyReviews) {
             navigate('/profile', { state: { selected: 2 } });
-        } else if(location.state?.fromMyFavoriteRecipes) {
-            navigate('/profile', { state: { selected: 1 } })
+        } else if (location.state?.fromMyFavoriteRecipes) {
+            navigate('/profile', { state: { selected: 1 } });
         } else if (location.state?.fromHomepage) {
             navigate("/");
             window.scrollTo({ top: 550, behavior: "smooth" });
@@ -81,14 +81,13 @@ const RecipeCard = () => {
             if (response.ok) {
                 setIsFavorite(!isFavorite);
                 const message = await response.text();
-                alert(message)
+                alert(message);
             } else {
                 alert("Failed to update favorite status.");
             }
-        }
-        catch (error) {
-            console.log(error)
-            alert("An error occurred while trying to add the recipe to your favorites.")
+        } catch (error) {
+            console.error(error);
+            alert("An error occurred while trying to add the recipe to your favorites.");
         }
     };
 
@@ -111,7 +110,7 @@ const RecipeCard = () => {
                 const updatedReviews = await response.json();
                 setReviews(updatedReviews);
                 setNewReview("");
-                setRating(0);
+                setRating(1);
             } else {
                 const errorText = await response.text();
                 console.error("Failed to submit review: ", errorText);
@@ -145,6 +144,7 @@ const RecipeCard = () => {
                     <p className={styles.description}>{recipeAndProducts.recipe.strInstructions}</p>
                 </div>
             </div>
+
             <div className={styles.ingredients}>
                 <div>
                     <h3>Ingredients</h3>
@@ -154,16 +154,18 @@ const RecipeCard = () => {
                         ))}
                     </ul>
                 </div>
+                
+                {/* Video Section */}
                 <div className={styles.videoSection}>
                     <h3>Watch the Recipe</h3>
-                </div>
-                <div className={styles.video}>
-                    <iframe
-                        src={recipeAndProducts.recipe.strYoutube.replace("watch?v=", "embed/")}
-                        title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    />
+                    <div className={styles.video}>
+                        <iframe
+                            src={recipeAndProducts.recipe.strYoutube.replace("watch?v=", "embed/")}
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        />
+                    </div>
                 </div>
             </div>
 
