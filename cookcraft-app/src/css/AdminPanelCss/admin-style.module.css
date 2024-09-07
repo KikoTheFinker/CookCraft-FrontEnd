@@ -1,0 +1,128 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    background: #f0f0f0;
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1), 10px 0 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    height: auto;
+    min-height: 89vh;
+    margin: 25px auto;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.topButtons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.button {
+    background-color: #FFA500;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover, .buttonClicked:hover {
+    background-color: #ff8533;
+}
+
+.buttonClicked {
+    background-color: #FFA500;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid black;
+    transition: background-color 0.3s ease;
+}
+
+/* Card styling */
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.cardContent {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.cardTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+/*Pagination Style*/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 700;
+}
+
+.pageButton {
+    background-color: #FFA500;
+    border: none;
+    color: #fff;
+    padding: 5px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+}
+
+.pageButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pageButton:hover:not(:disabled) {
+    background-color: #e59400;
+}
+
+.currentPage {
+    font-size: 18px;
+    color: #333;
+    margin: 0 15px;
+    font-weight: 700;
+}

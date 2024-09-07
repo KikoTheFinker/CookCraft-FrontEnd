@@ -8,6 +8,7 @@ import Recipes from './components/RecipesComponents/Recipes';
 import ApplicationForm from './components/ApplicationForm';
 import RecipeCard from "./components/RecipesComponents/RecipeCard";
 import About from "./components/About";
+import AdminView from "./components/AdminView";
 const App = () => {
   return (
     <Router>
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/Apply' element={<ApplicationForm/>}></Route>
           <Route path="/Recipes/:id" element={<RecipeCard/>}></Route>
           <Route path="/About" element={<About/>}></Route>
+          <Route path="/admin" element={<AdminView/>}></Route>
       </Routes>
     </Router>
   )
