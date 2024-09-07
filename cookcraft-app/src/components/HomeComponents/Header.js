@@ -9,6 +9,7 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [user, setUser] = useState({ username: '', usersurname: '' });
+  const [role, setRole] = useState("User");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -18,6 +19,33 @@ function Header() {
       const userSurname = localStorage.getItem('userSurname') || 'Name';
       setUser({ username: userName, usersurname: userSurname });
     }
+
+    const checkUserType = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/usertype",{
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer: ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if(response.ok)
+        {
+          const data = await response.json();
+          setRole(data);
+        }
+        else
+        {
+          console.log("error getting response.")
+          return;
+        }
+      }
+      catch (error) {
+        console.error(error)
+      }
+    }
+    checkUserType()
   }, []);
 
   const handleLogout = () => {
@@ -45,7 +73,15 @@ function Header() {
           <Link to="/" className={styles.navLink}>Home</Link>
           <Link to="/Recipes" className={styles.navLink}>Recipes</Link>
           <a href="/About" className={styles.navLink}>About</a>
-          <Link to="/apply" className={styles.navLink}>Apply for Delivery</Link>
+          {
+            role === "User" ?
+                <Link to="/apply" className={styles.navLink}>Apply for Delivery</Link>
+                :
+                role === "DeliveryPerson" ?
+                    <Link to="/deliver" className={styles.navLink}>Start Delivering</Link>
+                    :
+                    <Link to="/admin" className={styles.navLink}>Administrator</Link>
+          }
           {isLoggedIn && (
             <div className={styles.profileMenu}>
               <button onClick={toggleDropdown} className={styles.profileButton}>
