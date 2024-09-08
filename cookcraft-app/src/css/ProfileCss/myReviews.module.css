@@ -54,8 +54,9 @@
 }
 
 .textSection {
-    flex-grow: 1;
+    width: 300px;
     padding-right: 10px;
+    flex-grow: 1; 
 }
 
 .recipeName {
@@ -70,6 +71,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
 }
 
 .userFavoriteCuisineText {
@@ -85,6 +87,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-left: auto;
 }
 
 .starRating {
@@ -115,6 +118,9 @@
         border-right: none;
         border-bottom: 2px solid #e0a500; 
     }
+    .textSection {
+        width: 50%;
+    }
 
     .description {
         padding: 10px;
@@ -125,6 +131,7 @@
         width: 100%;
         height: 40px;
     }
+    
 }
 
 .favoriteButton {
