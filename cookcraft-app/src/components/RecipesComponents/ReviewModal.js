@@ -7,7 +7,7 @@ const Modal = ({ isOpen, onClose, title, children, deleteReviewId, handleDeleteR
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
-                <h3>{title}</h3>
+                <h2>{title}</h2>
                 <div>{children}</div>
                 <div>
                     {deleteReviewId && (

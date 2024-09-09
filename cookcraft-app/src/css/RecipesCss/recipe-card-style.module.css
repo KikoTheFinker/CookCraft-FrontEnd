@@ -110,16 +110,69 @@
     max-width: 750px;
 }
 
-.recipeCard .ingredients {
-    width: 100%;
-    margin-top: 2.5em;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2em;
-    align-items: start;
+.recipeCard .ingredients ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.recipeCard .ingredients h3 {
+.recipeCard .ingredients ul li {
+    position: relative;
+    padding-left: 1.75em;
+    margin-bottom: 0.75em;
+    font-size: 1.15em;
+    color: #555;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.recipeCard .ingredients ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: #FFA550;
+    border-radius: 50%;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.recipeCard .ingredients ul li:hover {
+    transform: translateX(7px);
+}
+
+.recipeCard .ingredients ul li:hover::before {
+    transform: translateY(-50%) scale(1.2);
+    background-color: #FF8C00;
+}
+
+.recipeCard .ingredients ul li label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.recipeCard .ingredients ul li input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #FFA550;
+    cursor: pointer;
+    transform: scale(1.1); 
+}
+
+.recipeCard .ingredients ul li:hover label {
+    color: #FFA550;
+}
+
+
+.recipeCard .ingredients ul li input[type="checkbox"]:checked + label::before {
+    background-color: #FF8C00;
+}
+
+.recipeCard h3 {
     color: #333;
     font-size: 1.85em;
     font-weight: 600;
@@ -129,7 +182,7 @@
     padding-bottom: 10px;
 }
 
-.recipeCard .ingredients h3::after {
+.recipeCard h3::after {
     content: '';
     position: absolute;
     left: 0;
@@ -140,7 +193,7 @@
     transition: width 0.3s ease;
 }
 
-.recipeCard .ingredients:hover h3::after {
+.recipeCard:hover h3::after {
     width: 85px;
 }
 
@@ -267,78 +320,6 @@
     background-color: #FF8C00;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-.recipeCard .ingredients {
-    width: 100%;
-    margin-top: 2.5em;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2em;
-    align-items: start;
-}
-
-.recipeCard .ingredients h3 {
-    color: #333;
-    font-size: 1.85em;
-    font-weight: 600;
-    margin-bottom: 0.75em;
-    text-align: left;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-.recipeCard .ingredients h3::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 55px;
-    height: 4px;
-    background-color: #FFA550;
-    transition: width 0.3s ease;
-}
-
-.recipeCard .ingredients:hover h3::after {
-    width: 85px;
-}
-
-.recipeCard .ingredients ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.recipeCard .ingredients ul li {
-    position: relative;
-    padding-left: 1.75em;
-    margin-bottom: 0.75em;
-    font-size: 1.15em;
-    color: #555;
-    transition: transform 0.2s ease;
-    line-height: 1.6;
-}
-
-.recipeCard .ingredients ul li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    background-color: #FFA550;
-    border-radius: 50%;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.recipeCard .ingredients ul li:hover {
-    transform: translateX(7px);
-}
-
-.recipeCard .ingredients ul li:hover::before {
-    transform: translateY(-50%) scale(1.2);
-    background-color: #FF8C00;
-}
-
 
 .reviewsSection {
     margin-top: 3em;

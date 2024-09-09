@@ -4,6 +4,7 @@ import { FaArrowLeft, FaHeart, FaTrash } from "react-icons/fa";
 import StarRating from "./StarRating";
 import Modal from "./ReviewModal"; 
 import styles from "../../css/RecipesCss/recipe-card-style.module.css";
+import ShoppingCart from '../ShoppingCartComponents/ShoppingCart';
 
 const RecipeCard = () => {
     const { id } = useParams();
@@ -207,18 +208,17 @@ const RecipeCard = () => {
             >
                 <FaHeart />
             </button>
-
-            <div className={styles.recipeDetails}>
-                <img
-                    src={recipeAndProducts.recipe.strMealThumb}
-                    alt={recipeAndProducts.recipe.strMeal}
-                    className={styles.recipeImage}
-                />
-                <div className={styles.textSection}>
-                    <h2>{recipeAndProducts.recipe.strMeal}</h2>
-                    <p className={styles.description}>{recipeAndProducts.recipe.strInstructions}</p>
-                </div>
-            </div>
+<div className={styles.recipeDetails}>
+    <img
+        src={recipeAndProducts.recipe.strMealThumb}
+        alt={recipeAndProducts.recipe.strMeal}
+        className={styles.recipeImage}
+    />
+    <div className={styles.textSection}>
+        <h2>{recipeAndProducts.recipe.strMeal}</h2>
+        <p className={styles.description}>{recipeAndProducts.recipe.strInstructions}</p>
+    </div>
+</div>
 
             <div className={styles.ingredients}>
                 <h3>Ingredients</h3>
@@ -228,9 +228,9 @@ const RecipeCard = () => {
                     ))}
                 </ul>
             </div>
+            <ShoppingCart ingredients={recipeAndProducts.productsInRecipes} hideIngredients={false}/>
             <div className={styles.videoSection}>
-    <h3>Recipe Video</h3>
-    <div className={styles.videoSection}>
+        <div className={styles.videoSection}>
                     <h3>Watch the Recipe</h3>
                 </div>
                 <div className={styles.video}>
@@ -241,7 +241,7 @@ const RecipeCard = () => {
                         allowFullScreen
                     />
                 </div>
-</div>
+        </div>
             <div className={styles.reviewsSection}>
     <h3>REVIEWS</h3>
     <ul>
