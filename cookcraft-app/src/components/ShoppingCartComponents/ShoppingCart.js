@@ -1,23 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext} from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../css/ShoppingCartCss/shopping-cart-style.module.css';
 import { FaShoppingCart } from "react-icons/fa";
 import { CartContext } from './CartContext';
+import ErrorModal from './ErrorModal';
 
 const ShoppingCart = ({ ingredients, hideIngredients }) => {
     const { cart, addToCart, removeFromCart } = useContext(CartContext); 
     const [showCart, setShowCart] = useState(false);
     const [showIngredients, setShowIngredients] = useState(false);
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-    const handleCheckboxChange = (ingredient) => {
-        if (selectedIngredients.includes(ingredient)) {
-            setSelectedIngredients(selectedIngredients.filter(item => item !== ingredient));
-            removeFromCart(ingredient);
-        } else {
-            setSelectedIngredients([...selectedIngredients, ingredient]);
-            addToCart(ingredient);
-        }
-    };
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const toggleCart = () => {
         setShowCart(!showCart);
@@ -28,6 +21,35 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
 
     const toggleIngredients = () => {
         setShowIngredients(!showIngredients);
+    };
+
+    const handleCheckboxChange = (ingredient) => {
+        const isInCart = cart.some(item => item.id === ingredient.id);
+        if (isInCart) {
+            removeFromCart(ingredient);
+        } else {
+            addToCart(ingredient);
+        }
+    };
+
+    const handleProceedToCheckout = () => {
+        const token = localStorage.getItem('token'); 
+        if (!token) {
+            setShowModal(true);  
+        } else {
+            navigate("/checkout");
+        }
+    };
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const handleLoginRedirect = () => {
+        navigate('/login');
+    };
+
+    const isIngredientInCart = (ingredient) => {
+        return cart.some(item => item.id === ingredient.id);
     };
 
     return (
@@ -58,7 +80,12 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                             ))}
                         </div>
                     )}
-                    <button className={styles.checkoutButton}>Proceed to Checkout</button>
+                    <button 
+                        className={styles.checkoutButton} 
+                        onClick={handleProceedToCheckout}
+                    >
+                        Proceed to Checkout
+                    </button>
                 </div>
             )}
 
@@ -75,7 +102,7 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                                     <label>
                                         <input
                                             type="checkbox"
-                                            checked={selectedIngredients.includes(ingredient)}
+                                            checked={isIngredientInCart(ingredient)}
                                             onChange={() => handleCheckboxChange(ingredient)}
                                         />
                                         {ingredient.name} - {ingredient.measurement}
@@ -85,6 +112,14 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                         </ul>
                     </div>
                 </div>
+            )}
+
+            {showModal && (
+                <ErrorModal 
+                    message="You must log in to proceed to checkout." 
+                    onClose={closeModal} 
+                    onLogin={handleLoginRedirect} 
+                />
             )}
         </div>
     );
