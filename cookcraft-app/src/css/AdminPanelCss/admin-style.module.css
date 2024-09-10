@@ -31,7 +31,8 @@
 }
 
 .button:hover, .buttonClicked:hover {
-    background-color: #ff8533;
+    background-color: #e69500;
+    /*background-color: #ff8533;*/
 }
 
 .buttonClicked {
@@ -127,4 +128,12 @@
     color: #333;
     margin: 0 15px;
     font-weight: 700;
+}
+
+.noDataText {
+    display: block;
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: black;
 }
