@@ -19,7 +19,7 @@ const ProfileSection = () => {
         const storedPhoneNumber = localStorage.getItem("phoneNumber");
         const storedAddress = localStorage.getItem("address");
 
-        let parts = storedAddress.split(" ");
+        let parts = storedAddress.split(";");
 
         setProfileData({
             userName: storedUserName || '',
@@ -39,7 +39,7 @@ const ProfileSection = () => {
 
             const updatedProfileData = {
                 ...profileData,
-                address: `${profileData.address} ${profileData.addressNumber} ${profileData.addressFloor}`
+                address: `${profileData.address};${profileData.addressNumber};${profileData.addressFloor}`
             };
 
             const response = await fetch("http://localhost:8080/api/profile/update", {
@@ -52,8 +52,6 @@ const ProfileSection = () => {
             })
 
             if (response.ok) {
-                const data = await response.json();
-                const {token, userName, userSurname, email, phoneNumber = '', address = ''} = data;
                 updatedProfileData.phoneNumber === '' ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", updatedProfileData.phoneNumber)
                 updatedProfileData.address === '' ? localStorage.setItem("address", "") : localStorage.setItem("address", updatedProfileData.address);
                 alert("Profile updated successfully.")

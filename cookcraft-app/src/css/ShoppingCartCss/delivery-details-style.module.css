@@ -1,0 +1,247 @@
+.checkoutContainer {
+  max-width: 1050px;
+  margin: 5em auto;
+  padding: 2em;
+  background-color: #f9f9f9;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease-in-out;
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.checkoutCard {
+  position: relative;
+  text-align: center;
+}
+
+.checkoutCard h2 {
+  font-size: 2.4em;
+  color: #444;
+  margin-bottom: 1em;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.checkoutCard h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 4px;
+  background-color: #FFA550;
+  transition: width 0.3s ease;
+}
+
+.checkoutCard h2:hover::after {
+  width: 100px;
+}
+
+.inputField {
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.inputField label {
+  display: block;
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 0.5em;
+}
+
+.inputField input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1.1em;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.ingredientsList {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+.ingredientItem {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  background-color: #ffffff; 
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px; 
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ingredientItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);  
+}
+
+.cartItemIcon {
+  color: #FFA550;
+  margin-right: 1em;
+  font-size: 1.5em;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ingredientItemTitle {
+  font-weight: bold;
+  color: #333;
+  margin-right: 20px;
+  white-space: nowrap;
+}
+
+.ingredientItem p {
+  margin: 0;
+  color: #333;
+  font-size: 1em;
+  white-space: nowrap;
+}
+
+.ingredientQuantity {
+  margin-left: auto;
+  font-size: 1em;
+  color: #666;
+  text-align: right;
+  min-width: 150px; 
+}
+
+
+
+.proceedButton {
+  display: inline-block;
+  padding: 0.8em 1.5em;
+  background-color: #FFA550;
+  color: #444;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.3em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  margin-top: 2.5em;
+  width: 100%;
+  max-width: 350px;
+}
+
+.proceedButton:hover {
+  background-color: #FF8C00;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.disabledButton {
+  display: inline-block;
+  padding: 0.8em 1.5em;
+  background-color: #ddd;
+  color: #999;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.3em;
+  font-weight: bold;
+  cursor: not-allowed;
+  box-shadow: none;
+  text-align: center;
+  margin-top: 2.5em;
+  width: 100%;
+  max-width: 350px;
+}
+
+.backArrow {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  font-size: 2em;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backArrow:hover {
+  color: #FFA550;
+  transform: translateX(-5px);
+}
+
+
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.spinner {
+  margin: 20px auto;
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #FFA550;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .checkoutContainer {
+      padding: 2em;
+      max-width: 100%;
+  }
+
+  .inputField input {
+      font-size: 1em;
+  }
+
+  .proceedButton {
+      width: 100%;
+      padding: 1em;
+  }
+}

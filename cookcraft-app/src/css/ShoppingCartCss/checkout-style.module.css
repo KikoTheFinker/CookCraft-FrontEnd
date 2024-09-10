@@ -1,0 +1,252 @@
+.checkoutContainer {
+    max-width: 1050px;
+    margin: 5em auto;
+    padding: 2em;
+    background-color: #f9f9f9;
+    border-radius: 24px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.5s ease-in-out;
+    position: relative;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.checkoutCard {
+    position: relative;
+    text-align: center;
+}
+
+.checkoutCard h2 {
+    font-size: 2.4em;
+    color: #444;
+    margin-bottom: 1em;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.checkoutCard h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 4px;
+    background-color: #FFA550;
+    transition: width 0.3s ease;
+}
+
+.checkoutCard h2:hover::after {
+    width: 100px;
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    margin-bottom: 2.5em;
+    width: 100%;
+}
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    background-color: #ffffff;
+    padding: 1.2em;
+    margin: 10px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-wrap: wrap;
+}
+
+.cartItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.cartItemIcon {
+    color: #FFA550;
+    margin-right: 1em; 
+}
+
+.itemDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.6em;
+    width: 60%;
+}
+
+.itemLabel {
+    font-size: 1.5em;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 0.3em;
+}
+
+.quantityInputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 160px;
+}
+.quantityLabel{
+    color: #FFA550;
+}
+.quantityInput {
+    width: 120px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.5em;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.gramsInfo {
+    font-size: 0.85em;
+    color: #999;
+    text-align: left;
+}
+
+.itemPrice {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #666;
+    background-color: #e8e8e8;
+    padding: 0.5em 1.2em;
+    border-radius: 10px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.removeButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.4em;
+    color: #FFA550;
+    transition: color 0.3s ease;
+}
+
+.removeButton:hover {
+    color: #FF5A5F;
+}
+
+.proceedButton {
+    display: inline-block;
+    padding: 0.8em 1.5em;
+    background-color: #FFA550;
+    color: #444;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    margin-top: 2.5em;
+    width: 100%;
+    max-width: 350px;
+}
+
+.proceedButton:hover {
+    background-color: #FF8C00;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.disabledButton {
+    display: inline-block;
+    padding: 0.8em 1.5em;
+    background-color: #dddddd;
+    color: #999;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: not-allowed;
+    box-shadow: none;
+    text-align: center;
+    margin-top: 2.5em;
+    width: 100%;
+    max-width: 350px;
+}
+
+.backArrow {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    font-size: 2em;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backArrow:hover {
+    color: #FFA550;
+    transform: translateX(-5px);
+}
+
+@media (max-width: 768px) {
+    .checkoutContainer {
+        padding: 2em;
+        max-width: 100%;
+    }
+
+    .cartItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .itemDetails {
+        width: 100%;
+    }
+
+    .checkoutCard h2 {
+        font-size: 2em;
+    }
+
+    .quantityInputContainer {
+        align-items: flex-start;
+        width: 100%;
+        margin-top: 10px; 
+    }
+
+    .quantityInput {
+        width: 100%;
+    }
+
+    .gramsInfo {
+        font-size: 0.85em;
+        color: #999;
+        margin-top: 0.3em;
+        margin-bottom: 1em; 
+        text-align: left;
+    }
+
+    .cartItem p {
+        font-size: 1.1em;
+    }
+
+    .cartItem span {
+        font-size: 1em;
+    }
+
+    .proceedButton {
+        width: 100%;
+        padding: 1em;
+    }
+}

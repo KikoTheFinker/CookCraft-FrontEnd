@@ -11,6 +11,8 @@ import About from "./components/About";
 import AdminView from "./components/AdminView";
 import DeliveryView from "./components/DeliveryView";
 import { CartProvider } from './components/ShoppingCartComponents/CartContext'; 
+import Checkout from './components/ShoppingCartComponents/Checkout';
+import DeliveryDetails from './components/ShoppingCartComponents/DeliveryDetails';
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
             <Route path="/About" element={<About/>}></Route>
             <Route path="/admin" element={<AdminView/>}></Route>
             <Route path="/deliver" element={<DeliveryView/>}></Route>
+            <Route path="/checkout" element={<Checkout/>}></Route>
+            <Route path="/delivery-details" element={<DeliveryDetails/>}></Route>
         </Routes>
       </Router>
     </CartProvider>

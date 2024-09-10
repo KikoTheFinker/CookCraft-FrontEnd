@@ -11,7 +11,6 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
     const [showIngredients, setShowIngredients] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-
     const toggleCart = () => {
         setShowCart(!showCart);
         if (!hideIngredients) {
@@ -69,7 +68,6 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                             {cart.map((item, index) => (
                                 <div className={styles.cartItemCard} key={index}>
                                     <p>{item.name}</p>
-                                    <span>{item.measurement}</span>
                                     <button
                                         className={styles.removeButton}
                                         onClick={() => removeFromCart(item)}
@@ -105,7 +103,7 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                                             checked={isIngredientInCart(ingredient)}
                                             onChange={() => handleCheckboxChange(ingredient)}
                                         />
-                                        {ingredient.name} - {ingredient.measurement}
+                                        {ingredient.name}
                                     </label>
                                 </li>
                             ))}

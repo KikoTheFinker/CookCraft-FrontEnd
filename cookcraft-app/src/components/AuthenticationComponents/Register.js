@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import loginStyles from '../../css/AuthenticationCss/login-style.module.css';
 import registerStyles from '../../css/AuthenticationCss/register-style.module.css';
 import logo from '../../images/logo.png';
