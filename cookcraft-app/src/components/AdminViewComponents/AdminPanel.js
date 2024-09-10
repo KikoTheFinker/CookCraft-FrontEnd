@@ -13,8 +13,6 @@ const AdminPanel = () => {
     const [cards, setCards] = useState([]);
     const [reload, setReload] = useState(false)
     const navigate = useNavigate()
-
-    // Modal States
     const [selectedReview, setSelectedReview] = useState(null);
     const [selectedApplication, setSelectedApplication] = useState(null);
 
@@ -138,7 +136,7 @@ const AdminPanel = () => {
                                     <AdminReviewCard
                                         key={index}
                                         data={cardData}
-                                        onClick={() => openReviewModal()}
+                                        onClick={() => openReviewModal(cardData)}
                                     />
                                 )
                             ) : <p className={styles.noDataText}>No data found.</p>
