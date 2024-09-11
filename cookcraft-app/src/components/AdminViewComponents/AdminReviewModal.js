@@ -2,7 +2,7 @@ import styles from "../../css/AdminPanelCss/modal-style.module.css";
 
 const ReviewModal = ({ isOpen, onClose, reviewData, onRemove }) => {
     if (!isOpen) return null;
-    console.log(reviewData);
+    // console.log(reviewData);
 
     const handleRemove = () => {
         onRemove(reviewData.id);
