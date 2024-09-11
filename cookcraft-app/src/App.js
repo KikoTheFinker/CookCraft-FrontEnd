@@ -13,9 +13,11 @@ import DeliveryView from "./components/DeliveryView";
 import { CartProvider } from './components/ShoppingCartComponents/CartContext'; 
 import Checkout from './components/ShoppingCartComponents/Checkout';
 import DeliveryDetails from './components/ShoppingCartComponents/DeliveryDetails';
+import { OrderProvider } from './components/ShoppingCartComponents/OrderContext'
 
 const App = () => {
   return (
+    <OrderProvider>
     <CartProvider>
       <Router>
         <Routes>
@@ -34,6 +36,7 @@ const App = () => {
         </Routes>
       </Router>
     </CartProvider>
+    </OrderProvider>
   )
 }
 

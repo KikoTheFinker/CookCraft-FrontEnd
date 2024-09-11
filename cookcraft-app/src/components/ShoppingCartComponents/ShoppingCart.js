@@ -1,16 +1,19 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../css/ShoppingCartCss/shopping-cart-style.module.css';
 import { FaShoppingCart } from "react-icons/fa";
 import { CartContext } from './CartContext';
+import { OrderContext } from './OrderContext';
 import ErrorModal from './ErrorModal';
 
 const ShoppingCart = ({ ingredients, hideIngredients }) => {
     const { cart, addToCart, removeFromCart } = useContext(CartContext); 
+    const { isOrderInProgress } = useContext(OrderContext); 
     const [showCart, setShowCart] = useState(false);
     const [showIngredients, setShowIngredients] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+
     const toggleCart = () => {
         setShowCart(!showCart);
         if (!hideIngredients) {
@@ -23,6 +26,7 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
     };
 
     const handleCheckboxChange = (ingredient) => {
+        if (isOrderInProgress) return; 
         const isInCart = cart.some(item => item.id === ingredient.id);
         if (isInCart) {
             removeFromCart(ingredient);
@@ -32,6 +36,8 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
     };
 
     const handleProceedToCheckout = () => {
+        if (isOrderInProgress) return; 
+
         const token = localStorage.getItem('token'); 
         if (!token) {
             setShowModal(true);  
@@ -39,6 +45,7 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
             navigate("/checkout");
         }
     };
+
     const closeModal = () => {
         setShowModal(false);
     };
@@ -71,6 +78,7 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                                     <button
                                         className={styles.removeButton}
                                         onClick={() => removeFromCart(item)}
+                                        disabled={isOrderInProgress} 
                                     >
                                         &times;
                                     </button>
@@ -81,8 +89,9 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                     <button 
                         className={styles.checkoutButton} 
                         onClick={handleProceedToCheckout}
+                        disabled={isOrderInProgress} 
                     >
-                        Proceed to Checkout
+                        {isOrderInProgress ? 'Order in Progress' : 'Proceed to Checkout'}
                     </button>
                 </div>
             )}
@@ -102,6 +111,7 @@ const ShoppingCart = ({ ingredients, hideIngredients }) => {
                                             type="checkbox"
                                             checked={isIngredientInCart(ingredient)}
                                             onChange={() => handleCheckboxChange(ingredient)}
+                                            disabled={isOrderInProgress} 
                                         />
                                         {ingredient.name}
                                     </label>

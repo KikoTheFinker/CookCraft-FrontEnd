@@ -13,6 +13,7 @@ const DeliveryDetails = () => {
   const [inputsDisabled, setInputsDisabled] = useState(false);
   const [orderId, setOrderId] = useState(null); 
   const [showModal, setShowModal] = useState(false);
+  const [hasActiveOrder, setHasActiveOrder] = useState(false); 
   const navigate = useNavigate();
   const location = useLocation();
   const { itemsWithQuantities } = location.state || { itemsWithQuantities: [] };
@@ -24,6 +25,8 @@ const DeliveryDetails = () => {
       setInputsDisabled(true); 
       checkDeliveryPersonAssigned(savedOrderId); 
     }
+
+    checkActiveOrder();
 
     const storedAddress = localStorage.getItem('address');
     if (storedAddress) {
@@ -39,9 +42,28 @@ const DeliveryDetails = () => {
     }
   }, []);
 
+  const checkActiveOrder = () => {
+    fetch("http://localhost:8080/api/orders/active", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    .then(response => response.json())
+    .then(hasOrder => {
+      if (hasOrder) {
+        setHasActiveOrder(true); 
+        setInputsDisabled(true);
+      }
+    })
+    .catch(error => {
+      console.error("Error checking active order:", error);
+    });
+  };
+
   const handleSubmit = () => {
-    if (orderId) {
-      console.log("Order already created, skipping creation.");
+    if (orderId || hasActiveOrder) {
       return;
     }
     if (address && addressNumber && phoneNumber) {
@@ -72,12 +94,13 @@ const DeliveryDetails = () => {
     })
       .then(response => response.json())
       .then(savedOrder => {
-
         setOrderId(savedOrder.id);
-        localStorage.setItem('orderId', savedOrder.id);
-
+        if (!savedOrder || !savedOrder.id) {
+          throw new Error("Order was not saved correctly.");
+        }
+        localStorage.setItem('orderId', savedOrder.id); 
         const productOrders = items.map(item => ({
-          orderId: savedOrder.id, 
+          orderId: savedOrder.id,
           productId: item.id,
           quantity: item.grams,
           deliveryPersonId: null
@@ -85,12 +108,16 @@ const DeliveryDetails = () => {
 
         return fetch("http://localhost:8080/api/productOrders", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+          },
           body: JSON.stringify(productOrders)
-        })
-        .then(() => {
-          checkDeliveryPersonAssigned(savedOrder.id); 
         });
+      })
+      .then(() => {
+        console.log(orderId)
+        checkDeliveryPersonAssigned(orderId); 
       })
       .catch(error => {
         console.error("Error saving order or product orders:", error);
@@ -99,7 +126,7 @@ const DeliveryDetails = () => {
 
   const checkDeliveryPersonAssigned = (orderId) => {
     const intervalId = setInterval(() => {
-      fetch(`http://localhost:8080/api/orders/status/${orderId}`, {
+      fetch(`http://localhost:8080/api/orders/status/${localStorage.getItem('orderId')}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -129,6 +156,15 @@ const DeliveryDetails = () => {
         <div className={styles.backArrow} onClick={() => navigate(-1)}>
           <FaArrowLeft />
         </div>
+
+        {hasActiveOrder && (
+          <div className={styles.notification}>
+            <p>An order is in progress.</p>
+            <button onClick={() => navigate(`/delivery-details`, { state: { itemsWithQuantities } })}>
+              Go to Order
+            </button>
+          </div>
+        )}
 
         <div className={styles.inputField}>
           <label htmlFor="address">Address:</label>
@@ -204,6 +240,12 @@ const DeliveryDetails = () => {
         {showModal && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
+              <button 
+                className={styles.closeButton} 
+                onClick={() => setShowModal(false)} 
+              >
+                &times;
+              </button>
               <h3>Waiting for Delivery</h3>
               <p>Your order is being processed. Please wait for a delivery person to accept the order.</p>
               <div className={styles.spinner}></div>

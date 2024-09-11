@@ -1,0 +1,27 @@
+.order-notification {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #FFA550;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .order-notification button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .order-notification button:hover {
+    background-color: #555;
+  }
+  
