@@ -5,6 +5,8 @@ import AdminReviewCard from "./AdminReviewCard";
 import ReviewModal from "./AdminReviewModal";
 import ApplicationModal from "./AdminApplicationModal";
 import {useNavigate} from "react-router-dom";
+import AdminOrderCard from "./AdminOrderCard";
+import AdminOrderReviewCard from "./AdminOrderReviewCard";
 
 const AdminPanel = () => {
     const [active, setActive] = useState("applications");
@@ -33,6 +35,7 @@ const AdminPanel = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log(data);
                     setCards(data.content || []);
                     setTotalPages(data.totalPages || 0);
                 }
@@ -49,7 +52,7 @@ const AdminPanel = () => {
         };
 
         fetchData();
-    }, [active, page, reload]);
+    }, [active, page, reload, navigate]);
 
     const handleApplicationClick = () => {
         setActive("applications");
@@ -60,6 +63,16 @@ const AdminPanel = () => {
         setActive("reviews");
         setPage(0);
     };
+
+    const handleOrdersClick = () => {
+        setActive("orders");
+        setPage(0);
+    }
+
+    const  handleOrderReviewsClick = () => {
+        setActive("orderreviews")
+        setPage(0);
+    }
 
     const handlePageChange = (newPage) => {
         setPage(newPage);
@@ -72,6 +85,14 @@ const AdminPanel = () => {
     const openApplicationModal = (applicationData) => {
         setSelectedApplication(applicationData);
     };
+
+    const openOrderModal = (orderData) => {
+        //TODO
+    }
+
+    const openOrderReviewModal = (orderData) => {
+        //TODO
+    }
 
     const closeModals = () => {
         setSelectedReview(null);
@@ -116,6 +137,18 @@ const AdminPanel = () => {
                         Applications
                     </div>
                     <div
+                        className={active === "orders" ? styles.buttonClicked : styles.button}
+                        onClick={handleOrdersClick}
+                    >
+                        Orders
+                    </div>
+                    <div
+                        className={active === "order-reviews" ? styles.buttonClicked : styles.button}
+                        onClick={handleOrderReviewsClick}
+                    >
+                        Order Reviews
+                    </div>
+                    <div
                         className={active === "reviews" ? styles.buttonClicked : styles.button}
                         onClick={handleCommentsClick}
                     >
@@ -133,11 +166,27 @@ const AdminPanel = () => {
                                         onClick={(completeData) => openApplicationModal(completeData)}
                                     />
                                 ) : (
-                                    <AdminReviewCard
-                                        key={index}
-                                        data={cardData}
-                                        onClick={() => openReviewModal(cardData)}
-                                    />
+                                    active === "orders" ? (
+                                        <AdminOrderCard
+                                            key={index}
+                                            data={cardData}
+                                            onClick={() => openOrderModal(cardData)}
+                                        />
+                                    ) : (
+                                        active === "smthing" ? (
+                                            <AdminOrderReviewCard
+                                                key={index}
+                                                data={cardData}
+                                                onClick={() => openOrderReviewModal(cardData)}
+                                            />
+                                        ) : (
+                                            <AdminReviewCard
+                                                key={index}
+                                                data={cardData}
+                                                onClick={() => openReviewModal(cardData)}
+                                            />
+                                        )
+                                    )
                                 )
                             ) : <p className={styles.noDataText}>No data found.</p>
                     }
