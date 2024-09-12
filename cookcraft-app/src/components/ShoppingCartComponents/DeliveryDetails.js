@@ -1,86 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaArrowLeft, FaUtensils } from "react-icons/fa";
 import { useNavigate, useLocation } from 'react-router-dom';
+import { OrderContext } from '../ShoppingCartComponents/OrderContext'; 
 import styles from '../../css/ShoppingCartCss/delivery-details-style.module.css';
 
 const DeliveryDetails = () => {
+  const { isOrderInProgress, orderStatus, orderId, startOrder, checkOrderStatus } = useContext(OrderContext); 
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [addressFloor, setAddressFloor] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [orderStatus, setOrderStatus] = useState('');
   const [inputsDisabled, setInputsDisabled] = useState(false);
-  const [orderId, setOrderId] = useState(null); 
   const [showModal, setShowModal] = useState(false);
-  const [hasActiveOrder, setHasActiveOrder] = useState(false); 
   const navigate = useNavigate();
   const location = useLocation();
   const { itemsWithQuantities } = location.state || { itemsWithQuantities: [] };
 
   useEffect(() => {
-    const savedOrderId = localStorage.getItem('orderId');
-    if (savedOrderId) {
-      setOrderId(savedOrderId); 
-      setInputsDisabled(true); 
-      checkDeliveryPersonAssigned(savedOrderId); 
-    }
+    const storedFullAddress = localStorage.getItem('address'); 
+    const storedPhoneNumber = localStorage.getItem('phoneNumber');
 
-    checkActiveOrder();
-
-    const storedAddress = localStorage.getItem('address');
-    if (storedAddress) {
-      const [addr, number, floor] = storedAddress.split(';');
+    if (storedFullAddress) {
+      const [addr, number, floor] = storedFullAddress.split(';');
       setAddress(addr.trim());
       setAddressNumber(number.trim());
       setAddressFloor(floor.trim());
     }
-
-    const storedPhoneNumber = localStorage.getItem('phoneNumber');
+    
     if (storedPhoneNumber) {
       setPhoneNumber(storedPhoneNumber.trim());
     }
   }, []);
 
-  const checkActiveOrder = () => {
-    fetch("http://localhost:8080/api/orders/active", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-    .then(response => response.json())
-    .then(hasOrder => {
-      if (hasOrder) {
-        setHasActiveOrder(true); 
-        setInputsDisabled(true);
-      }
-    })
-    .catch(error => {
-      console.error("Error checking active order:", error);
-    });
-  };
-
-  const handleSubmit = () => {
-    if (orderId || hasActiveOrder) {
-      return;
-    }
-    if (address && addressNumber && phoneNumber) {
-      setIsLoading(true);
-      setShowModal(true);
-      const fullAddress = `${address}; ${addressNumber}; ${addressFloor}`;
-      localStorage.setItem('address', fullAddress);
-      localStorage.setItem('phoneNumber', phoneNumber);
-
-      const order = {
-        address: fullAddress,
-        isFinished: false
-      };
-
-      saveOrderAndProducts(order, itemsWithQuantities);
+  useEffect(() => {
+    if (isOrderInProgress && orderId) {
       setInputsDisabled(true);
     }
+  }, [isOrderInProgress, orderId]);
+
+  useEffect(() => {
+    if (orderId) {
+      const intervalId = setInterval(() => {
+        checkOrderStatus(orderId); 
+      }, 5000); 
+
+      return () => clearInterval(intervalId);
+    }
+  }, [orderId, checkOrderStatus]);
+
+  const handleSubmit = () => {
+    if (orderId || isOrderInProgress) {
+      return;
+    }
+
+    setIsLoading(true);
+    setShowModal(true);
+
+    const fullAddress = `${address}; ${addressNumber}; ${addressFloor}`;
+    const order = {
+      address: fullAddress,
+      isFinished: false,
+    };
+
+    localStorage.setItem('address', fullAddress);
+    localStorage.setItem('phoneNumber', phoneNumber);
+
+    saveOrderAndProducts(order, itemsWithQuantities);
   };
 
   const saveOrderAndProducts = (order, items) => {
@@ -94,18 +80,19 @@ const DeliveryDetails = () => {
     })
       .then(response => response.json())
       .then(savedOrder => {
-        setOrderId(savedOrder.id);
         if (!savedOrder || !savedOrder.id) {
           throw new Error("Order was not saved correctly.");
         }
-        localStorage.setItem('orderId', savedOrder.id); 
+  
+        startOrder(savedOrder.id); 
+  
         const productOrders = items.map(item => ({
           orderId: savedOrder.id,
           productId: item.id,
           quantity: item.grams,
-          deliveryPersonId: null
+          deliveryPersonId: null,
         }));
-
+  
         return fetch("http://localhost:8080/api/productOrders", {
           method: "POST",
           headers: { 
@@ -113,40 +100,16 @@ const DeliveryDetails = () => {
             "Authorization": `Bearer ${localStorage.getItem('token')}`
           },
           body: JSON.stringify(productOrders)
-        });
+        }).then(() => savedOrder.id); 
       })
-      .then(() => {
-        console.log(orderId)
-        checkDeliveryPersonAssigned(orderId); 
+      .then(orderId => {
+        setIsLoading(false); 
+        checkOrderStatus(orderId); 
       })
       .catch(error => {
         console.error("Error saving order or product orders:", error);
+        setIsLoading(false);
       });
-  };
-
-  const checkDeliveryPersonAssigned = (orderId) => {
-    const intervalId = setInterval(() => {
-      fetch(`http://localhost:8080/api/orders/status/${localStorage.getItem('orderId')}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(response => response.text()) 
-        .then(message => {
-          if (message.includes("The delivery person")) {
-            setOrderStatus(message);
-            setShowModal(false); 
-            clearInterval(intervalId);
-          } else {
-            setOrderStatus(message); 
-          }
-        })
-        .catch(error => {
-          console.error("Error checking delivery person status:", error);
-        });
-    }, 3000);
   };
 
   return (
@@ -157,15 +120,6 @@ const DeliveryDetails = () => {
           <FaArrowLeft />
         </div>
 
-        {hasActiveOrder && (
-          <div className={styles.notification}>
-            <p>An order is in progress.</p>
-            <button onClick={() => navigate(`/delivery-details`, { state: { itemsWithQuantities } })}>
-              Go to Order
-            </button>
-          </div>
-        )}
-
         <div className={styles.inputField}>
           <label htmlFor="address">Address:</label>
           <input
@@ -175,6 +129,7 @@ const DeliveryDetails = () => {
             onChange={(e) => setAddress(e.target.value)}
             placeholder="Enter your address"
             disabled={inputsDisabled}
+            required
           />
         </div>
 
@@ -187,6 +142,7 @@ const DeliveryDetails = () => {
             onChange={(e) => setAddressNumber(e.target.value)}
             placeholder="Enter address number"
             disabled={inputsDisabled}
+            required
           />
         </div>
 
@@ -211,6 +167,7 @@ const DeliveryDetails = () => {
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="Enter your phone number"
             disabled={inputsDisabled}
+            required
           />
         </div>
 
@@ -230,12 +187,16 @@ const DeliveryDetails = () => {
         <button
           onClick={handleSubmit}
           className={styles.proceedButton}
-          disabled={isLoading || !!orderId}
+          disabled={isLoading || isOrderInProgress}
         >
           {isLoading ? "Processing..." : "Confirm Delivery"}
         </button>
 
-        {orderStatus && <p>{orderStatus}</p>}
+        {orderStatus && (
+          <p className={styles.orderStatusMessage}>
+            {orderStatus}
+          </p>
+        )}
 
         {showModal && (
           <div className={styles.modal}>

@@ -7,6 +7,7 @@ const DeliveryView = () => {
   const [orderHistory, setOrderHistory] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch both active orders and order history for the delivery person
   useEffect(() => {
     const fetchDeliveryData = async () => {
       try {
@@ -16,7 +17,9 @@ const DeliveryView = () => {
           navigate('/login');
           return;
         }
-        const activeOrdersResponse = await fetch('http://localhost:8080/api/orders/active', {
+
+        // Fetch all unassigned active orders
+        const activeOrdersResponse = await fetch('http://localhost:8080/api/orders/activeOrders', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -25,13 +28,13 @@ const DeliveryView = () => {
         });
 
         if (activeOrdersResponse.ok) {
-     
           const activeOrdersData = await activeOrdersResponse.json();
-          console.log(activeOrdersData)
           setActiveOrders(activeOrdersData);
         } else {
           alert('Failed to fetch active orders');
         }
+
+        // Fetch the delivery person's order history
         const historyResponse = await fetch('http://localhost:8080/api/orders/history', {
           method: 'GET',
           headers: {
