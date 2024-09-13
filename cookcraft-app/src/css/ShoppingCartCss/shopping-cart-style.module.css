@@ -248,3 +248,8 @@
 .hide {
     max-height: 0;
 }
+.gramsText {
+    font-size: 10px; 
+    color: #333; 
+    display: inline-block;
+  }

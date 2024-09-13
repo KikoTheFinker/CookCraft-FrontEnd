@@ -20,7 +20,7 @@ const ProfileSection = () => {
         const storedAddress = localStorage.getItem("address");
 
         let parts = storedAddress.split(";");
-
+        
         setProfileData({
             userName: storedUserName || '',
             userSurname: storedUserSurname || '',
@@ -53,7 +53,7 @@ const ProfileSection = () => {
 
             if (response.ok) {
                 updatedProfileData.phoneNumber === '' ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", updatedProfileData.phoneNumber)
-                updatedProfileData.address === '' ? localStorage.setItem("address", "") : localStorage.setItem("address", updatedProfileData.address);
+                updatedProfileData.address === ";;" ? localStorage.setItem("address", "") : localStorage.setItem("address", updatedProfileData.address);
                 alert("Profile updated successfully.")
             }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FaArrowLeft, FaUtensils } from "react-icons/fa";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { OrderContext } from '../ShoppingCartComponents/OrderContext'; 
 import styles from '../../css/ShoppingCartCss/delivery-details-style.module.css';
 
@@ -14,10 +14,15 @@ const DeliveryDetails = () => {
   const [inputsDisabled, setInputsDisabled] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { itemsWithQuantities } = location.state || { itemsWithQuantities: [] };
+
+  const [itemsWithQuantities, setItemsWithQuantities] = useState([]);
 
   useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setItemsWithQuantities(JSON.parse(storedCart));
+    }
+
     const storedFullAddress = localStorage.getItem('address'); 
     const storedPhoneNumber = localStorage.getItem('phoneNumber');
 
@@ -27,7 +32,7 @@ const DeliveryDetails = () => {
       setAddressNumber(number.trim());
       setAddressFloor(floor.trim());
     }
-    
+
     if (storedPhoneNumber) {
       setPhoneNumber(storedPhoneNumber.trim());
     }
@@ -83,16 +88,16 @@ const DeliveryDetails = () => {
         if (!savedOrder || !savedOrder.id) {
           throw new Error("Order was not saved correctly.");
         }
-  
-        startOrder(savedOrder.id); 
-  
+
+        startOrder(savedOrder.id);
+
         const productOrders = items.map(item => ({
           orderId: savedOrder.id,
           productId: item.id,
           quantity: item.grams,
           deliveryPersonId: null,
         }));
-  
+
         return fetch("http://localhost:8080/api/productOrders", {
           method: "POST",
           headers: { 
@@ -100,11 +105,11 @@ const DeliveryDetails = () => {
             "Authorization": `Bearer ${localStorage.getItem('token')}`
           },
           body: JSON.stringify(productOrders)
-        }).then(() => savedOrder.id); 
+        }).then(() => savedOrder.id);
       })
       .then(orderId => {
-        setIsLoading(false); 
-        checkOrderStatus(orderId); 
+        setIsLoading(false);
+        checkOrderStatus(orderId);
       })
       .catch(error => {
         console.error("Error saving order or product orders:", error);

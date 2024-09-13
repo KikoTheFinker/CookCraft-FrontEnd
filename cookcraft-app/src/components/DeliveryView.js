@@ -7,7 +7,6 @@ const DeliveryView = () => {
   const [orderHistory, setOrderHistory] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch both active orders and order history for the delivery person
   useEffect(() => {
     const fetchDeliveryData = async () => {
       try {
@@ -18,7 +17,6 @@ const DeliveryView = () => {
           return;
         }
 
-        // Fetch all unassigned active orders
         const activeOrdersResponse = await fetch('http://localhost:8080/api/orders/activeOrders', {
           method: 'GET',
           headers: {
@@ -34,7 +32,6 @@ const DeliveryView = () => {
           alert('Failed to fetch active orders');
         }
 
-        // Fetch the delivery person's order history
         const historyResponse = await fetch('http://localhost:8080/api/orders/history', {
           method: 'GET',
           headers: {

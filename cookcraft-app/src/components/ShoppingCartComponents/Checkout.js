@@ -8,9 +8,14 @@ import styles from '../../css/ShoppingCartCss/checkout-style.module.css';
 const Checkout = () => {
   const { cart, removeFromCart } = useContext(CartContext);
   const { isOrderInProgress } = useContext(OrderContext); 
-  const [quantities, setQuantities] = useState(cart.map(item => ({ id: item.id, grams: "" }))); 
-  const cartLength = cart?.length || 0;
   const navigate = useNavigate();
+
+  const [quantities, setQuantities] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : cart.map(item => ({ id: item.id, grams: "" }));
+  });
+
+  const cartLength = cart?.length || 0;
 
   const handleBackClick = () => {
     navigate(-1); 
@@ -21,22 +26,28 @@ const Checkout = () => {
     return Math.max(50, Math.min(rounded, 2000));
   };
 
+  const updateLocalStorageCart = (updatedCart) => {
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+
   const handleQuantityChange = (id, newGrams) => {
-    setQuantities(prevQuantities =>
-      prevQuantities.map(q => q.id === id ? { ...q, grams: newGrams } : q)
-    );
+    const updatedQuantities = quantities.map(q => q.id === id ? { ...q, grams: newGrams } : q);
+    setQuantities(updatedQuantities);
+    updateLocalStorageCart(updatedQuantities);
   };
 
   const handleQuantityBlur = (id, newGrams) => {
     const roundedGrams = roundToNearest50(newGrams);
-    setQuantities(prevQuantities =>
-      prevQuantities.map(q => q.id === id ? { ...q, grams: roundedGrams } : q)
-    );
+    const updatedQuantities = quantities.map(q => q.id === id ? { ...q, grams: roundedGrams } : q);
+    setQuantities(updatedQuantities);
+    updateLocalStorageCart(updatedQuantities); 
   };
 
   const handleRemoveFromCart = (item) => {
     removeFromCart(item);
-    setQuantities(prevQuantities => prevQuantities.filter(q => q.id !== item.id));
+    const updatedQuantities = quantities.filter(q => q.id !== item.id);
+    setQuantities(updatedQuantities);
+    updateLocalStorageCart(updatedQuantities); 
   };
 
   const allInputsFilled = quantities.every(q => q.grams >= 50 && q.grams <= 2000);

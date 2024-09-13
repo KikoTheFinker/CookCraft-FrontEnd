@@ -13,31 +13,33 @@ import DeliveryView from "./components/DeliveryView";
 import { CartProvider } from './components/ShoppingCartComponents/CartContext'; 
 import Checkout from './components/ShoppingCartComponents/Checkout';
 import DeliveryDetails from './components/ShoppingCartComponents/DeliveryDetails';
-import { OrderProvider } from './components/ShoppingCartComponents/OrderContext'
+import { OrderProvider } from './components/ShoppingCartComponents/OrderContext';
+import OrderNotification from './components/ShoppingCartComponents/OrderNotification';
 
 const App = () => {
   return (
     <OrderProvider>
-    <CartProvider>
-      <Router>
-        <Routes>
-            <Route path='/Register' element={<Register/>}/>
-            <Route path='/Login' element={<Login/>}/>
-            <Route path='/Profile' element={<ProfileView/>}></Route>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/Recipes' element={<Recipes/>}/>
-            <Route path='/Apply' element={<ApplicationForm/>}></Route>
-            <Route path="/Recipes/:id" element={<RecipeCard/>}></Route>
-            <Route path="/About" element={<About/>}></Route>
-            <Route path="/admin" element={<AdminView/>}></Route>
-            <Route path="/deliver" element={<DeliveryView/>}></Route>
-            <Route path="/checkout" element={<Checkout/>}></Route>
-            <Route path="/delivery-details" element={<DeliveryDetails/>}></Route>
-        </Routes>
-      </Router>
-    </CartProvider>
+      <CartProvider>
+        <Router>
+          <OrderNotification />
+          <Routes>
+            <Route path='/Register' element={<Register />} />
+            <Route path='/Login' element={<Login />} />
+            <Route path='/Profile' element={<ProfileView />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/Recipes' element={<Recipes />} />
+            <Route path='/Apply' element={<ApplicationForm />} />
+            <Route path="/Recipes/:id" element={<RecipeCard />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/admin" element={<AdminView />} />
+            <Route path="/deliver" element={<DeliveryView />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/delivery-details" element={<DeliveryDetails />} />
+          </Routes>
+        </Router>
+      </CartProvider>
     </OrderProvider>
-  )
+  );
 }
 
 export default App;
