@@ -68,9 +68,6 @@ const DeliveryDetails = () => {
       isFinished: false,
     };
 
-    localStorage.setItem('address', fullAddress);
-    localStorage.setItem('phoneNumber', phoneNumber);
-
     saveOrderAndProducts(order, itemsWithQuantities);
   };
 

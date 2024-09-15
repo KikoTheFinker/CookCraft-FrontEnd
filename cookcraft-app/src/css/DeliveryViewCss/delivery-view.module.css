@@ -1,7 +1,11 @@
 .container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  max-width: 1050px;
+  margin: 5em auto;
+  padding: 2em;
+  background-color: #f9f9f9;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease-in-out;
+  position: relative;
   }
   
   h1 {
@@ -72,4 +76,40 @@
     background-color: #ff8c00;
   }
   
+  .modal {
+    width: 50%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
   
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.5); 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.backArrow {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  font-size: 2em;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backArrow:hover {
+  color: #FFA550;
+  transform: translateX(-5px);
+}
+

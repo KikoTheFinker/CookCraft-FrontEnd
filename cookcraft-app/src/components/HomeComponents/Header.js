@@ -72,7 +72,7 @@ function Header({ ingredients = [] }) {
           <a href="/About" className={styles.navLink}>About</a>
           {
             role === "User" ?
-              <Link to="/apply" className={styles.navLink}>Apply for Delivery</Link>
+              <Link to="/apply" className={styles.navLink}>Join our Team!</Link>
               : role === "DeliveryPerson" ?
                 <Link to="/deliver" className={styles.navLink}>Start Delivering</Link>
                 : role === "Admin" ?
