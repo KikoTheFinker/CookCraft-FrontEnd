@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './components/AuthenticationComponents/Register';
 import Login from './components/AuthenticationComponents/Login';
@@ -19,8 +20,8 @@ import OrderNotification from './components/ShoppingCartComponents/OrderNotifica
 const App = () => {
   return (
     <CartProvider>
-    <OrderProvider>
-        <Router>
+      <Router>
+        <OrderProvider>
           <OrderNotification />
           <Routes>
             <Route path='/Register' element={<Register />} />
@@ -36,8 +37,8 @@ const App = () => {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/delivery-details" element={<DeliveryDetails />} />
           </Routes>
-        </Router>
-    </OrderProvider>
+        </OrderProvider>
+      </Router>
     </CartProvider>
   );
 }
