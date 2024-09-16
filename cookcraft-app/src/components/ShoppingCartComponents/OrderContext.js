@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { CartContext } from './CartContext';
 
 export const OrderContext = createContext();
 
@@ -7,6 +8,7 @@ export const OrderProvider = ({ children }) => {
   const [orderId, setOrderId] = useState(null);
   const [isOrderFinished, setIsOrderFinished] = useState(false);
   const [orderStatus, setOrderStatus] = useState('');
+  const { setCart } = useContext(CartContext); 
 
   useEffect(() => {
     const fetchActiveOrder = async () => {
@@ -51,34 +53,26 @@ export const OrderProvider = ({ children }) => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      
-      const contentType = response.headers.get('Content-Type');
-      let orderStatusMessage;
-
-      if (contentType && contentType.includes('application/json')) {
-        const statusData = await response.json();
-        if (statusData.isFinished) {
-          orderStatusMessage = 'Order completed!';
-          finishOrder();
-        } else {
-          orderStatusMessage = 'Your order is still in progress.';
-        }
-      } else {
-        orderStatusMessage = await response.text();
+  
+      const orderStatusMessage = await response.text();
+  
+      if (orderStatusMessage.toLowerCase().includes('review')) {
+        finishOrder(); 
       }
-
-      setOrderStatus(orderStatusMessage);
-
+  
+      setOrderStatus(orderStatusMessage); 
+  
     } catch (error) {
       console.error('Error checking order status:', error);
       setOrderStatus('Error checking order status.');
     }
   };
-
+  
   const finishOrder = () => {
     setOrderId(null);
     setIsOrderInProgress(false);
     setIsOrderFinished(true);
+    setCart([]); 
     setOrderStatus('Order completed!'); 
   };
 

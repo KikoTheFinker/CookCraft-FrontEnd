@@ -18,8 +18,8 @@ import OrderNotification from './components/ShoppingCartComponents/OrderNotifica
 
 const App = () => {
   return (
+    <CartProvider>
     <OrderProvider>
-      <CartProvider>
         <Router>
           <OrderNotification />
           <Routes>
@@ -37,8 +37,8 @@ const App = () => {
             <Route path="/delivery-details" element={<DeliveryDetails />} />
           </Routes>
         </Router>
-      </CartProvider>
     </OrderProvider>
+    </CartProvider>
   );
 }
 

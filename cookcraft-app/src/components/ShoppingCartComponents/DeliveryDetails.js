@@ -5,7 +5,7 @@ import { OrderContext } from '../ShoppingCartComponents/OrderContext';
 import styles from '../../css/ShoppingCartCss/delivery-details-style.module.css';
 
 const DeliveryDetails = () => {
-  const { isOrderInProgress, orderStatus, orderId, startOrder, checkOrderStatus } = useContext(OrderContext); 
+  const { isOrderInProgress, isOrderFinished, orderStatus, orderId, startOrder, checkOrderStatus, finishOrder } = useContext(OrderContext); 
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [addressFloor, setAddressFloor] = useState('');
@@ -13,8 +13,8 @@ const DeliveryDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [inputsDisabled, setInputsDisabled] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false); 
   const navigate = useNavigate();
-
   const [itemsWithQuantities, setItemsWithQuantities] = useState([]);
 
   useEffect(() => {
@@ -52,7 +52,14 @@ const DeliveryDetails = () => {
 
       return () => clearInterval(intervalId);
     }
+
   }, [orderId, checkOrderStatus]);
+
+  useEffect(() => {
+    if (isOrderFinished) {
+      setShowRatingModal(true); 
+    }
+  }, [isOrderFinished]);
 
   const handleSubmit = () => {
     if (orderId || isOrderInProgress) {
@@ -114,6 +121,18 @@ const DeliveryDetails = () => {
       });
   };
 
+const handleRateNow = () => {
+  setShowRatingModal(false);
+  finishOrder();
+  navigate(`/rate-delivery-person/${orderId}`);
+};
+
+  const handleMaybeLater = () => {
+    finishOrder();
+    setShowRatingModal(false);  
+    navigate('/')
+  };
+
   return (
     <div className={styles.checkoutContainer}>
       <div className={styles.checkoutCard}>
@@ -168,7 +187,7 @@ const DeliveryDetails = () => {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="Enter your phone number"
-            disabled={inputsDisabled}
+            disabled
             required
           />
         </div>
@@ -186,13 +205,15 @@ const DeliveryDetails = () => {
           ))}
         </ul>
 
-        <button
-          onClick={handleSubmit}
-          className={styles.proceedButton}
-          disabled={isLoading || isOrderInProgress}
-        >
-          {isLoading ? "Processing..." : "Confirm Delivery"}
-        </button>
+        {!isOrderFinished && (  
+          <button
+            onClick={handleSubmit}
+            className={styles.proceedButton}
+            disabled={isLoading || isOrderInProgress}
+          >
+            {isLoading ? "Processing..." : "Confirm Delivery"}
+          </button>
+        )}
 
         {orderStatus && (
           <p className={styles.orderStatusMessage}>
@@ -212,6 +233,16 @@ const DeliveryDetails = () => {
               <h3>Waiting for Delivery</h3>
               <p>Your order is being processed. Please wait for a delivery person to accept the order.</p>
               <div className={styles.spinner}></div>
+            </div>
+          </div>
+        )}
+
+        {showRatingModal && (  
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <h3>Do you want to rate the delivery person?</h3>
+              <button onClick={handleRateNow} className={styles.proceedButton}>Yes</button>
+              <button onClick={handleMaybeLater} className={styles.cancelButton}>Maybe Next Time</button>
             </div>
           </div>
         )}

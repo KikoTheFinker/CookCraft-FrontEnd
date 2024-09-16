@@ -24,7 +24,9 @@
     gap: 20px;
     justify-content: center;
   }
-  
+  strong {
+    color: #FFA550;
+  }
   .card {
     background: #f3f3f3;
     border-radius: 16px;
