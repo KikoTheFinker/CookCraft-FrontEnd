@@ -5,12 +5,16 @@ const ApplicationCard = ({ data, onClick }) => {
     const [userData, setUserData] = useState({});
 
     useEffect(() => {
+        if (!data || !data.userId) {
+            return;
+        }
+
         const url = "http://localhost:8080/api";
         const { userId } = data;
+        const token = localStorage.getItem("token");
 
         const fetchUserData = async () => {
             try {
-                const token = localStorage.getItem("token");
                 const response = await fetch(`${url}/users/${userId}`, {
                     method: "GET",
                     headers: {
@@ -23,7 +27,7 @@ const ApplicationCard = ({ data, onClick }) => {
                     const user_data = await response.json();
                     setUserData(user_data);
                 } else {
-                    alert("Custom response.");
+                    alert(response.status);
                 }
             } catch (error) {
                 console.error(error);

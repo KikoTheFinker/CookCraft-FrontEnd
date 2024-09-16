@@ -137,3 +137,34 @@
     font-weight: bold;
     color: black;
 }
+
+/*Orders*/
+
+.orderContainer {
+    margin-bottom: -40px;
+}
+
+.toggleSection {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    padding: 10px;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.toggleSection.open {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.toggleSection.closed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.adminOrderCard {
+    margin-bottom: 10px;
+}

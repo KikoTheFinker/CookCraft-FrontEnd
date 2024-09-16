@@ -1,22 +1,32 @@
-import styles from "../../css/AdminPanelCss/admin-style.module.css"
+import styles from "../../css/AdminPanelCss/admin-style.module.css";
 import ApplicationCard from "./ApplicationCard";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import AdminReviewCard from "./AdminReviewCard";
 import ReviewModal from "./AdminReviewModal";
 import ApplicationModal from "./AdminApplicationModal";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdminOrderCard from "./AdminOrderCard";
 import AdminOrderReviewCard from "./AdminOrderReviewCard";
+import AdminOrderModal from "./AdminOrderModal";
+import AdminOrderReviewModal from "./AdminOrderReviewModal";
 
 const AdminPanel = () => {
     const [active, setActive] = useState("applications");
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [cards, setCards] = useState([]);
-    const [reload, setReload] = useState(false)
-    const navigate = useNavigate()
+    const [reload, setReload] = useState(false);
     const [selectedReview, setSelectedReview] = useState(null);
     const [selectedApplication, setSelectedApplication] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [selectedOrderReview, setSelectedOrderReview] = useState(null);
+    const [showPending, setShowPending] = useState(false);
+    const [showAccepted, setShowAccepted] = useState(false);
+    const [showFinished, setShowFinished] = useState(false);
+    const [pending, setPending] = useState([]);
+    const [accepted, setAccepted] = useState([]);
+    const [finished, setFinished] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const url = "http://localhost:8080/api";
@@ -35,19 +45,41 @@ const AdminPanel = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
                     setCards(data.content || []);
                     setTotalPages(data.totalPages || 0);
-                }
-                else if (response.status === 403) {
-                    console.log(await response.json())
+
+                    if (active === "orders") {
+                        const newPending = [];
+                        const newAccepted = [];
+                        const newFinished = [];
+                        data.content.forEach((content) => {
+                            let deliveryPerson = content.deliveryPerson;
+                            let order = content.order;
+
+                            if (deliveryPerson === null) {
+                                newPending.push(content);
+                            } else if (!order.isFinished) {
+                                newAccepted.push(content);
+                            } else {
+                                newFinished.push(content);
+                            }
+                        });
+
+                        setPending(newPending);
+                        setAccepted(newAccepted);
+                        setFinished(newFinished);
+                    } else {
+                        setPending([]);
+                        setAccepted([]);
+                        setFinished([]);
+                    }
+                } else if (response.status === 403) {
                     navigate("/");
-                }
-                else {
+                } else {
                     alert("Bad request.");
                 }
             } catch (error) {
-                alert(error);
+                console.log(error);
             }
         };
 
@@ -67,12 +99,12 @@ const AdminPanel = () => {
     const handleOrdersClick = () => {
         setActive("orders");
         setPage(0);
-    }
+    };
 
-    const  handleOrderReviewsClick = () => {
-        setActive("orderreviews")
+    const handleOrderReviewsClick = () => {
+        setActive("orderreviews");
         setPage(0);
-    }
+    };
 
     const handlePageChange = (newPage) => {
         setPage(newPage);
@@ -87,22 +119,22 @@ const AdminPanel = () => {
     };
 
     const openOrderModal = (orderData) => {
-        //TODO
-    }
+        setSelectedOrder(orderData);
+    };
 
-    const openOrderReviewModal = (orderData) => {
-        //TODO
-    }
+    const openOrderReviewModal = (orderReviewData) => {
+        setSelectedOrderReview(orderReviewData);
+    };
 
     const closeModals = () => {
         setSelectedReview(null);
         setSelectedApplication(null);
+        setSelectedOrder(null);
+        setSelectedOrderReview(null);
     };
 
     const handleRemoveReview = async (reviewId) => {
-        console.log("Remove review with id: ", reviewId);
-        let token = localStorage.getItem("token")
-        console.log(token);
+        let token = localStorage.getItem("token");
         try {
             const response = await fetch(`http://localhost:8080/api/admin/reviews/${reviewId}`, {
                 method: 'DELETE',
@@ -110,21 +142,47 @@ const AdminPanel = () => {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${token}`
                 }
-            })
+            });
+            if (response.ok) {
+                setReload(true);
+            } else {
+                alert("Bad request.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error removing review.");
+        }
+    };
+
+    const handleRemoveOrderReview = async (orderId) => {
+        let token = localStorage.getItem("token");
+        try {
+            const response = await fetch(`http://localhost:8080/api/admin/orderreviews/${orderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             if(response.ok)
             {
                 setReload(true)
             }
+            else if(response.status === 403)
+            {
+                navigate("/");
+            }
             else
             {
-                alert("Bad request.");
+                console.log(response.status);
+                alert("Bad request.")
             }
         }
         catch (error) {
-            console.error(error)
-            alert("Error removing review.")
+            console.error(error);
+            alert("Error removing order review.")
         }
-    };
+    }
 
     return (
         <>
@@ -143,7 +201,7 @@ const AdminPanel = () => {
                         Orders
                     </div>
                     <div
-                        className={active === "order-reviews" ? styles.buttonClicked : styles.button}
+                        className={active === "orderreviews" ? styles.buttonClicked : styles.button}
                         onClick={handleOrderReviewsClick}
                     >
                         Order Reviews
@@ -157,7 +215,7 @@ const AdminPanel = () => {
                 </div>
                 <div className={styles.cardContainer}>
                     {
-                        cards.length !== 0 ?
+                        cards.length !== 0 ? (
                             cards.map((cardData, index) =>
                                 active === "applications" ? (
                                     <ApplicationCard
@@ -167,13 +225,9 @@ const AdminPanel = () => {
                                     />
                                 ) : (
                                     active === "orders" ? (
-                                        <AdminOrderCard
-                                            key={index}
-                                            data={cardData}
-                                            onClick={() => openOrderModal(cardData)}
-                                        />
+                                        <></>
                                     ) : (
-                                        active === "smthing" ? (
+                                        active === "orderreviews" ? (
                                             <AdminOrderReviewCard
                                                 key={index}
                                                 data={cardData}
@@ -188,7 +242,53 @@ const AdminPanel = () => {
                                         )
                                     )
                                 )
-                            ) : <p className={styles.noDataText}>No data found.</p>
+                            )
+                        ) : <p className={styles.noDataText}>No data found.</p>
+                    }
+                    {
+                        active === "orders" ? (
+                            <>
+                                <div className={styles.orderContainer}>
+                                    <h3 onClick={() => setShowPending(!showPending)} className={styles.toggleSection}>
+                                        {showPending ? "▼" : "▶"} Pending Orders
+                                    </h3>
+                                    {showPending &&
+                                        pending.map((order, index) => (
+                                            <AdminOrderCard
+                                                key={index}
+                                                data={order}
+                                                onClick={() => openOrderModal(order)}
+                                            />
+                                        ))}
+                                </div>
+                                <div className={styles.orderContainer}>
+                                    <h3 onClick={() => setShowAccepted(!showAccepted)} className={styles.toggleSection}>
+                                        {showAccepted ? "▼" : "▶"} Accepted Orders
+                                    </h3>
+                                    {showAccepted &&
+                                        accepted.map((order, index) => (
+                                            <AdminOrderCard
+                                                key={index}
+                                                data={order}
+                                                onClick={() => openOrderModal(order)}
+                                            />
+                                        ))}
+                                </div>
+                                <div className={styles.orderContainer}>
+                                    <h3 onClick={() => setShowFinished(!showFinished)} className={styles.toggleSection}>
+                                        {showFinished ? "▼" : "▶"} Finished Orders
+                                    </h3>
+                                    {showFinished &&
+                                        finished.map((order, index) => (
+                                            <AdminOrderCard
+                                                key={index}
+                                                data={order}
+                                                onClick={() => openOrderModal(order)}
+                                            />
+                                        ))}
+                                </div>
+                            </>
+                        ) : null
                     }
                 </div>
                 <div className={styles.pagination}>
@@ -224,6 +324,17 @@ const AdminPanel = () => {
                     applicationData={selectedApplication}
                     onClose={closeModals}
                     setReload={setReload}
+                />
+                <AdminOrderModal
+                    isOpen={selectedOrder !== null}
+                    orderData={selectedOrder}
+                    onClose={closeModals}
+                />
+                <AdminOrderReviewModal
+                    isOpen={selectedOrderReview !== null}
+                    orderReviewData={selectedOrderReview}
+                    onClose={closeModals}
+                    onRemove={handleRemoveOrderReview}
                 />
             </div>
         </>

@@ -1,17 +1,20 @@
 import styles from "../../css/AdminPanelCss/admin-style.module.css";
 
 const AdminOrderReviewCard = ({ data, onClick }) => {
-
-    console.log(data)
+    if(data.user === undefined)
+    {
+        return;
+    }
+    const { user, order } = data
 
     return (
         <div className={styles.card} onClick={onClick}>
             <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>
-                    Test
+                    User: {user.name !== undefined ? user.name : "Unknown"}
                 </h3>
-                <p><strong>Email:</strong> email test</p>
-                <p><strong>Phone Number:</strong> numberTest</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Rating:</strong> {order.rating}</p>
             </div>
         </div>
     );

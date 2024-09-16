@@ -1,10 +1,22 @@
 import styles from "../../css/AdminPanelCss/modal-style.module.css";
 
-const AdminOrderReviewModal = ({ isOpen, onClose, reviewData, onRemove }) => {
-    if (!isOpen) return null;
+const AdminOrderReviewModal = ({ isOpen, onClose, orderReviewData, onRemove }) => {
+    if (!isOpen ||
+        orderReviewData.user === undefined ||
+        orderReviewData.order === undefined ||
+        orderReviewData.deliveryPerson === null
+    ) return null;
+
+    const { user, order, deliveryPerson } = orderReviewData
+    const addr = order.address.split(";");
+    console.log(addr)
+    console.log(user)
+    console.log(order)
+    console.log(deliveryPerson)
+    console.log(order.id)
 
     const handleRemove = () => {
-        //onRemove(reviewData.id);
+        onRemove(order.id);
         onClose();
     }
 
@@ -15,19 +27,19 @@ const AdminOrderReviewModal = ({ isOpen, onClose, reviewData, onRemove }) => {
                 <h2>Review Details</h2>
 
                 <h3>User Details</h3>
-                <p><strong>Name:</strong> Test Test </p>
-                <p><strong>Email:</strong> test@gmail.com </p>
-                <p><strong>Phone Number:</strong> 075333222</p>
-                <p><strong>Deliver To:</strong> Shekerinska 27 5</p>
+                <p><strong>Name:</strong> {user.name} {user.surname} </p>
+                <p><strong>Email:</strong> {user.email} </p>
+                <p><strong>Phone Number:</strong> {user.phoneNumber} </p>
+                <p><strong>Deliver To:</strong> {addr[0] || ""} {addr[1] || ""} {addr[2] || ""} </p>
 
                 <h3>Delivery Person Details</h3>
-                <p><strong>Name:</strong> Test Test </p>
-                <p><strong>Email:</strong> test@gmail.com </p>
-                <p><strong>Phone Number:</strong> 075300200 </p>
+                <p><strong>Name:</strong> {deliveryPerson.name} {deliveryPerson.surname} </p>
+                <p><strong>Email:</strong> {deliveryPerson.email} </p>
+                <p><strong>Phone Number:</strong> {deliveryPerson.phoneNumber} </p>
 
-                <h4>Review:</h4>
-                <p><strong>Rating:</strong> 5</p>
-                <p>That was amazing fast delivery!</p>
+                <h3>Review:</h3>
+                <p><strong>Rating:</strong> {order.rating}</p>
+                <p>{order.review}</p>
 
                 <button onClick={handleRemove} className={styles.removeButton}>
                     Remove Review

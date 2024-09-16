@@ -2,16 +2,15 @@ import styles from "../../css/AdminPanelCss/admin-style.module.css";
 
 const AdminOrderCard = ({ data, onClick }) => {
 
-    console.log(data)
+    const address= data.order.address !== undefined ? data.order.address.split(";") : ["","",""];
 
     return (
-        <div className={styles.card} onClick={onClick}>
+        <div className={`${styles.card} ${styles.adminOrderCard}`} onClick={onClick}>
             <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>
-                    Test
+                    User: {data.user.name} {data.user.surname}
                 </h3>
-                <p><strong>Email:</strong> email test</p>
-                <p><strong>Phone Number:</strong> numberTest</p>
+                <p><strong>Address:</strong> {address[0]} {address[1]} {address[2]}</p>
             </div>
         </div>
     );
