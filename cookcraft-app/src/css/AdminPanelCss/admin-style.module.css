@@ -1,16 +1,17 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     background: #f0f0f0;
     box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1), 10px 0 10px rgba(0, 0, 0, 0.1);
     width: 45%;
-    height: auto;
-    min-height: 105vh;
+    min-height: 100vh;
     margin: 25px auto;
     border-radius: 25px;
     padding: 20px;
+    height: auto;
+    overflow-y: auto;
 }
 
 .topButtons {

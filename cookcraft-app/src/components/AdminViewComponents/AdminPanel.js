@@ -35,13 +35,27 @@ const AdminPanel = () => {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`${url}/admin/${active}?page=${page}&size=4`, {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                });
+                let response;
+                if(active === "orders")
+                {
+                    response = await fetch(`${url}/admin/orders?page=0&size=100`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            "Content-Type": 'application/json'
+                        }
+                    });
+                }
+                else
+                {
+                    response = await fetch(`${url}/admin/${active}?page=${page}&size=4`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+                }
 
                 if (response.ok) {
                     const data = await response.json();
@@ -58,10 +72,10 @@ const AdminPanel = () => {
 
                             if (deliveryPerson === null) {
                                 newPending.push(content);
-                            } else if (!order.isFinished) {
-                                newAccepted.push(content);
-                            } else {
+                            } else if (order.finished) {
                                 newFinished.push(content);
+                            } else {
+                                newAccepted.push(content);
                             }
                         });
 
@@ -253,11 +267,11 @@ const AdminPanel = () => {
                                         {showPending ? "▼" : "▶"} Pending Orders
                                     </h3>
                                     {showPending &&
-                                        pending.map((order, index) => (
+                                        pending.map((orderData, index) => (
                                             <AdminOrderCard
-                                                key={index}
-                                                data={order}
-                                                onClick={() => openOrderModal(order)}
+                                                key={orderData.order.id}
+                                                data={orderData}
+                                                onClick={() => openOrderModal(orderData)}
                                             />
                                         ))}
                                 </div>
@@ -266,11 +280,11 @@ const AdminPanel = () => {
                                         {showAccepted ? "▼" : "▶"} Accepted Orders
                                     </h3>
                                     {showAccepted &&
-                                        accepted.map((order, index) => (
+                                        accepted.map((orderData, index) => (
                                             <AdminOrderCard
-                                                key={index}
-                                                data={order}
-                                                onClick={() => openOrderModal(order)}
+                                                key={orderData.order.id}
+                                                data={orderData}
+                                                onClick={() => openOrderModal(orderData)}
                                             />
                                         ))}
                                 </div>
@@ -279,11 +293,11 @@ const AdminPanel = () => {
                                         {showFinished ? "▼" : "▶"} Finished Orders
                                     </h3>
                                     {showFinished &&
-                                        finished.map((order, index) => (
+                                        finished.map((orderData, index) => (
                                             <AdminOrderCard
-                                                key={index}
-                                                data={order}
-                                                onClick={() => openOrderModal(order)}
+                                                key={orderData.order.id}
+                                                data={orderData}
+                                                onClick={() => openOrderModal(orderData)}
                                             />
                                         ))}
                                 </div>
@@ -291,7 +305,7 @@ const AdminPanel = () => {
                         ) : null
                     }
                 </div>
-                <div className={styles.pagination}>
+                {active !== "orders" && <div className={styles.pagination}>
                     {page > 0 && (
                         <button
                             onClick={() => handlePageChange(page - 1)}
@@ -311,7 +325,7 @@ const AdminPanel = () => {
                             &rarr;
                         </button>
                     )}
-                </div>
+                </div>}
 
                 <ReviewModal
                     isOpen={selectedReview !== null}
