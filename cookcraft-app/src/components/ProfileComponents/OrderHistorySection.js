@@ -1,27 +1,53 @@
+import React, { useState, useEffect } from 'react';
 import styles from '../../css/ProfileCss/orderHistory.module.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsDown as Dislike, faThumbsUp as Like } from "@fortawesome/free-solid-svg-icons";
 
 const OrderCard = () => {
-    return (
-        <div className={styles.orderCard}>
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    
+    fetch('http://localhost:8080/api/orders/finished', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      setOrders(data);
+    })
+    .catch(error => {
+      console.error('Error fetching orders:', error);
+    });
+  }, []);
+
+  return (
+    <div>
+      {orders.map(order => {
+        const addressParts = order.address.split(';');
+        const address = addressParts[0] || "Unknown address";
+        const number = addressParts[1] || "Unknown number";
+        const floor = addressParts[2] || "Unknown floor";
+
+        return (
+          <div key={order.id} className={styles.orderCard}>
             <div className={styles.orderDescription}>
-                <p>
-                    <strong>Order id:</strong> a7FS53l
-                    <strong>Location:</strong> Bul. Ilinden 103/6
-                    <strong>Delivery Person:</strong> Kristijan Petkov
-                </p>
+              <p>
+                <strong>Order id:</strong> {order.id} <br />
+                <strong>Address:</strong> {address} <br />
+                <strong>Number:</strong> {number} <br />
+                <strong>Floor:</strong> {floor} <br />
+                <strong>Delivery Person:</strong> {order.deliveryPersonName} {order.deliveryPersonSurname} <br />
+                <strong>Rating:</strong> {order.rating || "No rating"} <br />
+                <strong>Review:</strong> {order.review || "No review"} <br />
+              </p>
             </div>
-            <div className={styles.orderReviewButtons}>
-                <span>
-                    <FontAwesomeIcon icon={Like} className={styles.orderBtn} />
-                </span>
-                <span>
-                    <FontAwesomeIcon icon={Dislike} className={styles.orderBtn} />
-                </span>
-            </div>
-        </div>
-    );
-}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default OrderCard;

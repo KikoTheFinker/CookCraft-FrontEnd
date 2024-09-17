@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { OrderContext } from '../ShoppingCartComponents/OrderContext';
+import { OrderContext } from './OrderContext';
 import { FaBiking } from 'react-icons/fa'; 
 import styles from '../../css/ShoppingCartCss/order-notification.module.css'; 
 

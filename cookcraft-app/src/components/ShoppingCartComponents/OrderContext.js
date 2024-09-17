@@ -21,7 +21,6 @@ export const OrderProvider = ({ children }) => {
     setIsOrderFinished(true);
     setCart([]);
     setOrderStatus('Order delivered!');
-    localStorage.removeItem('orderId'); 
     localStorage.removeItem('isOrderInProgress');
     setShowRatingModal(true);
     setDisableNewOrder(true);
@@ -95,12 +94,12 @@ export const OrderProvider = ({ children }) => {
   const handleRateNow = () => {
     setShowRatingModal(false);
     navigate("/delivery-review")
-    window.location.reload();
   };
 
   const handleMaybeLater = () => {
     setShowRatingModal(false); 
     navigate("/")
+    localStorage.removeItem('orderId'); 
     window.location.reload();
   };
 
@@ -116,14 +115,18 @@ export const OrderProvider = ({ children }) => {
     }}>
       {children}
       {showRatingModal && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <h3>Do you want to rate the delivery person?</h3>
-            <button onClick={handleRateNow} className={styles.proceedButton}>Yes</button>
-            <button onClick={handleMaybeLater} className={styles.cancelButton}>Maybe Next Time</button>
-          </div>
-        </div>
-      )}
+  <div className={styles.ratingModal}>
+    <div className={styles.ratingModalContent}>
+      <button onClick={handleMaybeLater} className={styles.closeRatingModal}>&times;</button>
+      <h3>Do you want to rate the delivery person?</h3>
+      <div className={styles.ratingButtonGroup}>
+        <button onClick={handleRateNow} className={styles.ratingProceedButton}>Yes</button>
+        <button onClick={handleMaybeLater} className={styles.ratingCloseButton}>Maybe Next Time</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </OrderContext.Provider>
   );
 };

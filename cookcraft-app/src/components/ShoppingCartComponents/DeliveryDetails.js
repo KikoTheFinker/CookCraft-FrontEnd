@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FaArrowLeft, FaUtensils } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import { OrderContext } from '../ShoppingCartComponents/OrderContext'; 
+import { OrderContext } from './OrderContext'; 
 import styles from '../../css/ShoppingCartCss/delivery-details-style.module.css';
 
 const DeliveryDetails = () => {
@@ -185,15 +185,16 @@ const DeliveryDetails = () => {
           ))}
         </ul>
 
-        {!isOrderFinished && (  
-          <button
-            onClick={handleSubmit}
-            className={styles.proceedButton}
-            disabled={isLoading || isOrderInProgress}
-          >
-            {isLoading ? "Processing..." : "Confirm Delivery"}
-          </button>
-        )}
+  
+{!isOrderFinished && (
+  <button
+    onClick={handleSubmit}
+    className={styles.proceedButton}
+    disabled={isLoading || isOrderInProgress || itemsWithQuantities.length === 0}
+  >
+    {isLoading ? "Processing..." : "Confirm Delivery"}
+  </button>
+)}
 
         {orderStatus && (
           <p className={styles.orderStatusMessage}>

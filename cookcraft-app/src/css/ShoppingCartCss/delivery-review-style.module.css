@@ -1,0 +1,125 @@
+.reviewContainer {
+    max-width: 600px;
+    margin: 5em auto;
+    padding: 2em;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+  }
+  
+
+  h2 {
+    font-size: 2em;
+    color: #444;
+    margin-bottom: 1.5em;
+  }
+  
+
+  .starRating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+
+  .star {
+    font-size: 2.5em;
+    color: #ddd;
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+
+  .active {
+    color: #FFA550;
+  }
+  
+
+  .reviewComment {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+
+  .reviewComment:focus {
+    border-color: #FFA550;
+  }
+  
+
+  .confirmButton {
+    padding: 0.6em 1.5em;
+    background-color: #FFA550;
+    color: #444;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .confirmButton:hover {
+    background-color: #FF8C00;
+  }
+  
+  .modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modalContent h3 {
+    font-size: 1.2em;
+    color: #444;
+  }
+  
+  @media (max-width: 768px) {
+    .reviewContainer {
+      padding: 1.5em;
+      max-width: 90%;
+    }
+  
+    h2 {
+      font-size: 1.6em;
+    }
+  
+    .star {
+      font-size: 2em;
+    }
+  
+    .confirmButton {
+      font-size: 1.1em;
+      padding: 0.6em 1.2em;
+    }
+  
+    .reviewComment {
+      height: 100px;
+    }
+  }
+  
