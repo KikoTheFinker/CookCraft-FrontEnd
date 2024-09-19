@@ -52,15 +52,20 @@ function ApplicationForm() {
         console.log('Application Data:', applicationData);
 
         try {
-            const token = localStorage.getItem('token');  
+            const token = localStorage.getItem('token');
+
+            const formData = new FormData();
+            formData.append('cv', cv);
+            formData.append('motivational_letter', motivationalLetter);
+            formData.append('phone_number', phoneNumber);
+            formData.append('email',email);
     
             const response = await fetch('http://localhost:8080/api/apply', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}` 
                 },
-                body: JSON.stringify(applicationData), 
+                body: formData,
             });
 
             if (response.ok) {
