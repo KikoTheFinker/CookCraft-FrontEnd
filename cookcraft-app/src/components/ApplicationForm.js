@@ -41,16 +41,6 @@ function ApplicationForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const applicationData = {
-            cv: cv ? await cvToBase64(cv) : null,
-            motivational_letter: motivationalLetter,
-            phone_number: phoneNumber,
-            email: email,
-        };
-
-        console.log('Application Data:', applicationData);
-
         try {
             const token = localStorage.getItem('token');
 
@@ -85,15 +75,6 @@ function ApplicationForm() {
             console.error('Error submitting application:', error);
             alert('An error occurred while submitting the application.');
         }
-    };
-    
-    const cvToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
     };
 
     if (!isLoggedIn) {
