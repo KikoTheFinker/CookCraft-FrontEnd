@@ -12,13 +12,17 @@
     padding: 20px;
     height: auto;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .topButtons {
     display: flex;
     justify-content: space-around;
+    /*remove align items if top buttons are bugging out*/
+    align-items: center;
     width: 100%;
     margin-bottom: 30px;
+    gap: 2%;
 }
 
 .button {
@@ -29,6 +33,7 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .button:hover, .buttonClicked:hover {
@@ -45,6 +50,7 @@
     font-size: 16px;
     border: 1px solid black;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 /* Card styling */

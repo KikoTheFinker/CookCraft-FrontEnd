@@ -9,6 +9,8 @@ import AdminOrderCard from "./AdminOrderCard";
 import AdminOrderReviewCard from "./AdminOrderReviewCard";
 import AdminOrderModal from "./AdminOrderModal";
 import AdminOrderReviewModal from "./AdminOrderReviewModal";
+import AdminRecipeApplicationCard from "./AdminRecipeApplicationCard";
+import AdminRecipeApplicationModal from "./AdminRecipeApplicationModal";
 
 const AdminPanel = () => {
     const [active, setActive] = useState("applications");
@@ -20,6 +22,7 @@ const AdminPanel = () => {
     const [selectedApplication, setSelectedApplication] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [selectedOrderReview, setSelectedOrderReview] = useState(null);
+    const [selectedRecipeApplication, setSelectedRecipeApplication] = useState(null)
     const [showPending, setShowPending] = useState(false);
     const [showAccepted, setShowAccepted] = useState(false);
     const [showFinished, setShowFinished] = useState(false);
@@ -88,7 +91,8 @@ const AdminPanel = () => {
                         setFinished([]);
                     }
                 } else if (response.status === 403) {
-                    navigate("/");
+                    console.log(response.status)
+                    // navigate("/");
                 } else {
                     alert("Bad request.");
                 }
@@ -120,6 +124,11 @@ const AdminPanel = () => {
         setPage(0);
     };
 
+    const handleRecipeApplicationClick = () => {
+        setActive("recipeapplications");
+        setPage(0);
+    }
+
     const handlePageChange = (newPage) => {
         setPage(newPage);
     };
@@ -140,11 +149,16 @@ const AdminPanel = () => {
         setSelectedOrderReview(orderReviewData);
     };
 
+    const openRecipeApplicationModal = (recipeApplicationData) => {
+      setSelectedRecipeApplication(recipeApplicationData)
+    }
+
     const closeModals = () => {
         setSelectedReview(null);
         setSelectedApplication(null);
         setSelectedOrder(null);
         setSelectedOrderReview(null);
+        setSelectedRecipeApplication(null);
     };
 
     const handleRemoveReview = async (reviewId) => {
@@ -206,13 +220,13 @@ const AdminPanel = () => {
                         className={active === "applications" ? styles.buttonClicked : styles.button}
                         onClick={handleApplicationClick}
                     >
-                        Applications
+                        User Applications
                     </div>
                     <div
                         className={active === "orders" ? styles.buttonClicked : styles.button}
                         onClick={handleOrdersClick}
                     >
-                        Orders
+                        All Orders
                     </div>
                     <div
                         className={active === "orderreviews" ? styles.buttonClicked : styles.button}
@@ -225,6 +239,12 @@ const AdminPanel = () => {
                         onClick={handleCommentsClick}
                     >
                         User Comments
+                    </div>
+                    <div
+                        className={active === "recipeapplications" ? styles.buttonClicked : styles.button}
+                        onClick={handleRecipeApplicationClick}
+                    >
+                        Recipe Applications
                     </div>
                 </div>
                 <div className={styles.cardContainer}>
@@ -248,11 +268,19 @@ const AdminPanel = () => {
                                                 onClick={() => openOrderReviewModal(cardData)}
                                             />
                                         ) : (
-                                            <AdminReviewCard
-                                                key={index}
-                                                data={cardData}
-                                                onClick={() => openReviewModal(cardData)}
-                                            />
+                                            active === "recipeapplications" ? (
+                                                <AdminRecipeApplicationCard
+                                                    key={cardData.id}
+                                                    data={cardData}
+                                                    onClick={() => openRecipeApplicationModal(cardData)}
+                                                />
+                                            ) : (
+                                                <AdminReviewCard
+                                                    key={index}
+                                                    data={cardData}
+                                                    onClick={() => openReviewModal(cardData)}
+                                                />
+                                            )
                                         )
                                     )
                                 )
@@ -267,7 +295,7 @@ const AdminPanel = () => {
                                         {showPending ? "▼" : "▶"} Pending Orders
                                     </h3>
                                     {showPending &&
-                                        pending.map((orderData, index) => (
+                                        pending.map((orderData) => (
                                             <AdminOrderCard
                                                 key={orderData.order.id}
                                                 data={orderData}
@@ -280,7 +308,7 @@ const AdminPanel = () => {
                                         {showAccepted ? "▼" : "▶"} Accepted Orders
                                     </h3>
                                     {showAccepted &&
-                                        accepted.map((orderData, index) => (
+                                        accepted.map((orderData) => (
                                             <AdminOrderCard
                                                 key={orderData.order.id}
                                                 data={orderData}
@@ -293,7 +321,7 @@ const AdminPanel = () => {
                                         {showFinished ? "▼" : "▶"} Finished Orders
                                     </h3>
                                     {showFinished &&
-                                        finished.map((orderData, index) => (
+                                        finished.map((orderData) => (
                                             <AdminOrderCard
                                                 key={orderData.order.id}
                                                 data={orderData}
@@ -349,6 +377,12 @@ const AdminPanel = () => {
                     orderReviewData={selectedOrderReview}
                     onClose={closeModals}
                     onRemove={handleRemoveOrderReview}
+                />
+                <AdminRecipeApplicationModal
+                    isOpen={selectedRecipeApplication !== null}
+                    recipeApplicationData={selectedRecipeApplication}
+                    onClose={closeModals}
+                    setReload={setReload}
                 />
             </div>
         </>

@@ -106,6 +106,7 @@ const navigateToRecipe = (id) => {
         {loading && <div className={styles.loaderOverlay}><div className={styles.spinner}></div></div>}
         <div className={styles.container}>
           <h1 className={styles.sectionTitle}>Discover Your Next Favorite Dish</h1>
+          <button className={styles.addRecipeButton} onClick={() => navigate("/recipes/add")}>Add your recipe</button>
           <div className={styles.recipeCards}>
             {recipes.map(recipe => (
               <div key={recipe.id} className={styles.recipeCard}>

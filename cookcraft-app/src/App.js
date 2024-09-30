@@ -16,7 +16,8 @@ import Checkout from './components/ShoppingCartComponents/Checkout';
 import DeliveryDetails from './components/ShoppingCartComponents/DeliveryDetails';
 import { OrderProvider } from './components/ShoppingCartComponents/OrderContext';
 import OrderNotification from './components/ShoppingCartComponents/OrderNotification';
-import DeliveryReview from './components/ShoppingCartComponents/DeliveryReview';  
+import DeliveryReview from './components/ShoppingCartComponents/DeliveryReview';
+import RecipeApplication from "./components/RecipesComponents/RecipeApplication";
 
 const App = () => {
   return (
@@ -32,12 +33,13 @@ const App = () => {
             <Route path='/Recipes' element={<Recipes />} />
             <Route path='/Apply' element={<ApplicationForm />} />
             <Route path="/Recipes/:id" element={<RecipeCard />} />
-            <Route path="/About" element={<About />} />
+            <Route path="/about" element={<About />} />
             <Route path="/admin" element={<AdminView />} />
             <Route path="/deliver" element={<DeliveryView />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/delivery-details" element={<DeliveryDetails />} />
-            <Route path="/delivery-review" element={<DeliveryReview />} /> 
+            <Route path="/delivery-review" element={<DeliveryReview />} />
+            <Route path="/recipes/add" element={<RecipeApplication />}/>
           </Routes>
         </OrderProvider>
       </Router>
