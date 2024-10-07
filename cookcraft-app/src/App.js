@@ -40,6 +40,7 @@ const App = () => {
             <Route path="/delivery-details" element={<DeliveryDetails />} />
             <Route path="/delivery-review" element={<DeliveryReview />} />
             <Route path="/recipes/add" element={<RecipeApplication />}/>
+            <Route path="/loginSuccess" element={<Login />} />
           </Routes>
         </OrderProvider>
       </Router>
