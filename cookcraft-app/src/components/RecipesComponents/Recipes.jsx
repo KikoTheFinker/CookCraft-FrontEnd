@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../../css/RecipesCss/recipe-style.module.css';
-import Header from '../../components/HomeComponents/Header';
-import Footer from '../../components/HomeComponents/Footer';
+import Header from '../HomeComponents/Header';
+import Footer from '../HomeComponents/Footer';
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState([]);

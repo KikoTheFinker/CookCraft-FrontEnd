@@ -1,7 +1,4 @@
 import styles from "../../css/AboutPageCss/about-body-style.module.css"
-// import mission_image from "../../images/AboutPhoto1.jpg"
-// import vision_image from "../../images/AboutPhoto2.jpg"
-// import value_image from "../../images/AboutPhoto3.jpg"
 import mission_image from "../../images/familyCookingTogether.jpg"
 import vision_image from "../../images/familyMeal.jpg"
 import value_image from "../../images/womanSmiling.jpg"
