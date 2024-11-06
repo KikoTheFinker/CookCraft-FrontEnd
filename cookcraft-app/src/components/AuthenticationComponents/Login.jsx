@@ -5,7 +5,6 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import logo from '../../images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +13,27 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const firstName = params.get('firstName');
+    const lastName = params.get('lastName');
+    const email = params.get('email');
+    const phoneNumber = params.get('phoneNumber');
 
+    if (token) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('userName', firstName || '');
+      localStorage.setItem('userSurname', lastName || '');
+      localStorage.setItem('email', email || '');
+      localStorage.setItem('phoneNumber', phoneNumber || '');
+      localStorage.setItem('address', '');
+
+      navigate('/');
+    }
+  }, [navigate]);
+
+  
   useEffect(() => {
     const emailField = document.querySelector(`.${styles.emailInput}`);
     const emailLabel = emailField.nextElementSibling;
@@ -85,31 +104,32 @@ const Login = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
-  
+
     try {
       const response = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (response.ok) {
         const data = await response.json(); 
         const { token, user_name, user_surname, email, phone_number, address } = data;
-  
+
         localStorage.setItem('token', token);
         localStorage.setItem('userName', user_name);
-        localStorage.setItem('userSurname', user_surname);
+        localStorage.setItem('userSurname', user_surname || '');
         localStorage.setItem('email', email);
-        phone_number === undefined ? localStorage.setItem("phoneNumber", "") : localStorage.setItem("phoneNumber", phone_number)
-        address === undefined ? localStorage.setItem("address", "") : localStorage.setItem("address", address);
-  
+        localStorage.setItem('phoneNumber', phone_number || '');
+        localStorage.setItem('address', address || '');
+
         navigate('/');
       } else {
         setErrorMessage('Invalid email or password. Please try again.');
@@ -121,7 +141,10 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  
+
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  };
 
   return (
     <div className={styles.loginContainer}>
@@ -160,6 +183,12 @@ const Login = () => {
           <p className={styles.signin}>
             Don't have an account? <Link to="/Register">Sign up here</Link>
           </p>
+          <div className={styles.divider}>
+            <span>OR</span>
+          </div>
+          <button type="button" className={styles.googleButton} onClick={handleGoogleLogin}>
+            Continue with Google
+          </button>
         </form>
       </div>
     </div>

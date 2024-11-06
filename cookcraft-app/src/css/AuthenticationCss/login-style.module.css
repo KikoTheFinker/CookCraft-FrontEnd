@@ -171,4 +171,49 @@
     margin-top: 10px; 
     font-weight: bold; 
   }
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+  }
   
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .divider::before {
+    margin-right: 10px;
+  }
+  
+  .divider::after {
+    margin-left: 10px;
+  }
+  
+  .divider span {
+    color: #888;
+    font-weight: bold;
+  }
+  
+  .googleButton {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .googleButton:hover {
+    background-color: #357ae8;
+  }
+  
+  .googleButton:active {
+    background-color: #2a65c7;
+  }

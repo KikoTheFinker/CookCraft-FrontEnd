@@ -41,7 +41,6 @@
 .formGroup input[type="email"],
 .formGroup input[type="tel"],
 .formGroup input[type="file"],
-.formGroup input[type="url"],
 .formGroup textarea {
     width: 100%;
     padding: 12px;
@@ -55,25 +54,9 @@
 .formGroup input[type="email"]:focus,
 .formGroup input[type="tel"]:focus,
 .formGroup input[type="file"]:focus,
-.formGroup input[type="url"],
 .formGroup textarea:focus {
     border-color: #e0a500;
     outline: none;
-}
-
-.innerFormContainer {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.innerFormData {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 120%;
-}
-
-.innerFormData:first-child {
-    margin-right: 2%;
 }
 
 .buttonContainer {
@@ -95,41 +78,6 @@
     background-color: #cc8b00;
 }
 
-.addIngredientButton {
-    margin-top: 10px;
-    background-color: #FFA500;
-    color: white;
-    border-radius: 5px;
-    border: 1px solid #FFA500;
-    padding: 5px 10px;
-    transition: background-color 0.5s ease;
-}
-
-.addIngredientButton:hover {
-    cursor: pointer;
-    background-color: white;
-    color: #FFA500;
-    transition: background-color 0.3s ease;
-}
-
-.removeIngredientButton {
-    background-color: #FFA500;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 20px;
-    margin-left: 10px;
-    border: 1px solid #FFA500;
-    transition: background-color 0.3s ease;
-}
-
-.removeIngredientButton:hover {
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid red;
-    color: red;
-    transition: background-color 0.3s ease;
-}
-
 @media (max-width: 768px) {
     .applicationForm {
         padding: 20px;
@@ -144,7 +92,6 @@
     .formGroup input[type="email"],
     .formGroup input[type="tel"],
     .formGroup input[type="file"],
-    .formGroup input[type="url"],
     .formGroup textarea {
         font-size: 14px;
     }
